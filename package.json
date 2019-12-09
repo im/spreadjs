@@ -1,0 +1,28 @@
+{
+  "name": "ele-spreadjs",
+  "version": "0.0.1",
+  "description": "大象慧云spreadjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AngusYang9/ele-spreadjs.git"
+  },
+  "keywords": [
+    "spreadjs"
+  ],
+  "author": "Angus Yang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AngusYang9/ele-spreadjs/issues"
+  },
+  "homepage": "https://github.com/AngusYang9/ele-spreadjs#readme",
+  "dependencies": {
+    "@grapecity/spread-excelio": "^13.0.1",
+    "@grapecity/spread-sheets": "^13.0.1",
+    "element-ui": "^2.13.0",
+    "vue": "^2.6.10"
+  }
+}
