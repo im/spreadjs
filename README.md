@@ -18,8 +18,8 @@ const options = {
   // 批注
   comment: true,
   // 工具箱
-  toolkit: this.toolkitDom,
+  toolkit: toolkitdom,
 }
-const workbook = initSpread(dom, json, options);
+const workbook = initSpread(exceldom, json, options);
 ```
 
