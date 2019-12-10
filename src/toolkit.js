@@ -9,7 +9,6 @@ import $ from 'jquery';
 import { GC, workbook } from './init';
 import { BUTTON_STYLE, SPLIT_STYLE, UNCHECKED_COLOR, CHECKED_COLOR } from './style';
 import { formatterOptions, fontOptions, fontsizeOptions } from './options';
-import tcellStyle from '../../../../TaxModule/Modules/System/MouldProvision/ProvisionTemplate';
 
 let worksheet = null;
 const clickCell = {};
