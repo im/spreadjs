@@ -1,0 +1,19 @@
+/*!
+ * 
+ * SpreadJS Library 13.0.1
+ * 
+ * Copyright(c) GrapeCity, Inc.  All rights reserved.
+ * 
+ * Licensed under the SpreadJS Commercial License.
+ * us.sales@grapecity.com
+ * http://www.grapecity.com/en/licensing/grapecity/
+ * 
+ * 
+ */
+
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @license  MIT
+ */
