@@ -1,6 +1,4 @@
-<p>
-<h1 align="center">ele spreadjs</h1>
-</p>
+<p><h1 align="center">ele spreadjs</h1></p>
 
 **为大象慧云spreadjs打造功能性的封装，让前端只需专注业务开发，无需了解spreadjs繁琐的配置。**
 
