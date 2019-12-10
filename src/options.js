@@ -57,7 +57,7 @@ export const fontOptions = [
   {
     label: '宋体',
     value: '宋体',
-  },
+  }
 ];
 export const fontsizeOptions = [
   {

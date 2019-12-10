@@ -1,5 +1,6 @@
 import { GC, workbook } from './init';
 
+var bind = false;
 let worksheet = null;
 const clickCell = {};
 
@@ -16,9 +17,7 @@ function syncSpread() {
  * method cell changed event and recall comment func.
  */
 function bindCellChanged() {
-  workbook.bind(GC.Spread.Sheets.Events.SelectionChanged, (e, args) => {
-    clickCell.row = args.newSelections[0].row;
-    clickCell.row = args.newSelections[0].col;
+  workbook.bind(GC.Spread.Sheets.Events.CellClick, (e, args) => {
     comment();
   });
 }
@@ -120,7 +119,11 @@ function deleteCommentRightKey() {
  */
 export default function comment(clearDisplay = true) {
   syncSpread();
-  bindCellChanged();
+
+  if (!bind) {
+    bindCellChanged();
+    bind = true;
+  }
 
   if (clearDisplay) {
     worksheet.options.isProtected = true;

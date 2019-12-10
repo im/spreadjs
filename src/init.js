@@ -21,7 +21,7 @@ function recalcAll() {
  * @param {JSON} options Apply feature.
  * @return {Object} return Spread workbook object.
  */
-function initSpread(dom, json, options) {
+function initSpread(dom, json, options = {}) {
   const spreadNS = GC.Spread.Sheets;
   spreadNS.LicenseKey = LicenseKey;
   Excel.LicenseKey = LicenseKey;
