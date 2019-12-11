@@ -2,6 +2,7 @@ import GC from '@grapecity/spread-sheets';
 import Excel from '@grapecity/spread-excelio';
 import pako from 'pako';
 import LicenseKey from './license';
+import FaverSaver from 'file-saver';
 
 GC.Spread.Sheets.LicenseKey = LicenseKey;
 Excel.LicenseKey = LicenseKey;
@@ -44,21 +45,23 @@ function exportFunc(data, options = { pako: false }) {
   return new Promise((resolve, reject) => {
     function download(json, fileName) {
       excelIo.save(json, (blob) => {
-        // for IE
-        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-          window.navigator.msSaveOrOpenBlob(blob, fileName);
-        }
-        // for Non-IE (chrome, firefox etc.)
-        else {
-          const a = document.createElement('a');
-          a.download = `${fileName}`;
-          const url = window.URL.createObjectURL(blob);
-          a.href = url;
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(url);
-          a.remove();
-        }
+        // 使用 npm faie-server 替代原生写法
+        FaverSaver.saveAs(blob, fileName)
+        // // for IE
+        // if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        //   window.navigator.msSaveOrOpenBlob(blob, fileName);
+        // }
+        // // for Non-IE (chrome, firefox etc.)
+        // else {
+        //   const a = document.createElement('a');
+        //   a.download = `${fileName}`;
+        //   const url = window.URL.createObjectURL(blob);
+        //   a.href = url;
+        //   document.body.appendChild(a);
+        //   a.click();
+        //   window.URL.revokeObjectURL(url);
+        //   a.remove();
+        // }
         resolve(fileName);
       }, (e) => {
         // process error
