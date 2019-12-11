@@ -37,7 +37,7 @@ import { excel } from 'ele-spreadjs';
 /**
  * method 导入文件.
  * @param {String} type 需要的文件类型.
- * @param {Object} options 选项.
+ * @param {Object} options 配置.
  * @return {String} return Promise { resolve spread json }.
  */
 excel.importFunc('xlsx', { pako: true }).then(res => {
@@ -48,8 +48,8 @@ excel.importFunc('xlsx', { pako: true }).then(res => {
 
 /**
  * method 导出文件.
- * @param {Object} data Spread josn.
- * @param {Object} options 选项.
+ * @param {Object} data Spread json.
+ * @param {Object} options 配置.
  * @return {String} return Promise { resolve file name }.
  */
 excel.exportFunc(json, { pako: true }).then((filename) => {})
