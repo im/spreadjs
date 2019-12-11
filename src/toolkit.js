@@ -49,6 +49,17 @@ function bindEvnet() {
 
     Object.assign(cellStyle, getCellStyle());
   });
+
+  workbook.bind(GC.Spread.Sheets.Events.ActiveSheetChanged, (e, args) => {
+    syncSpread();
+    Object.assign(cellStyle, getCellStyle());
+  });
+
+  // 由于存在代码主动切换sheet页的情况，而ActiveSheetChanged不会触发，所以我们只能通过轮循来同步样式
+  setInterval(() => {
+    syncSpread();
+    Object.assign(cellStyle, getCellStyle());
+  }, 500);
 }
 
 /**
@@ -342,7 +353,7 @@ function underlineCell() {
  * @param {Object | String} e Selected font.
  */
 function setFont(e) {
-  var value;
+  let value;
   if (typeof e === 'object') {
     value = e.target.value;
   } else {
@@ -380,7 +391,7 @@ function setFont(e) {
  * @param {Object | String} e Selected font size.
  */
 function setFontsize(e) {
-  var value;
+  let value;
   if (typeof e === 'object') {
     value = e.target.value;
   } else {
@@ -569,7 +580,7 @@ function delBorder() {
  * @param {String} e Will be set type.
  */
 function setFormatter(e) {
-  var value;
+  let value;
   if (typeof e === 'object') {
     value = e.target.value;
   } else {

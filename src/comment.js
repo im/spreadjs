@@ -20,6 +20,16 @@ function bindCellChanged() {
   workbook.bind(GC.Spread.Sheets.Events.CellClick, (e, args) => {
     comment();
   });
+
+  workbook.bind(GC.Spread.Sheets.Events.ActiveSheetChanged, (e, args) => {
+    comment();
+  });
+
+  // 由于存在代码主动切换sheet页的情况，而ActiveSheetChanged不会触发，所以我们只能通过轮循来同步
+  // 存在bug：待处理
+  // setInterval(() => {
+  //   comment();
+  // }, 500);
 }
 
 /**
