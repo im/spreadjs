@@ -1,11 +1,16 @@
 import GC from '@grapecity/spread-sheets';
 import Excel from '@grapecity/spread-excelio';
+import ZH from '@grapecity/spread-sheets-resources-zh';
+import '@grapecity/spread-sheets/styles/gc.spread.sheets.css'
 import LicenseKey from './license';
 import context from './context';
 import comment from './comment';
 import toolkit from './toolkit';
+import excel from './excel';
 
 let workbook = null;
+GC.Spread.Sheets.LicenseKey = LicenseKey;
+Excel.LicenseKey = LicenseKey;
 
 /**
  * method recalculation excel formula.
@@ -22,11 +27,8 @@ function recalcAll() {
  * @return {Object} return Spread workbook object.
  */
 function initSpread(dom, json, options = {}) {
-  const spreadNS = GC.Spread.Sheets;
-  spreadNS.LicenseKey = LicenseKey;
-  Excel.LicenseKey = LicenseKey;
   GC.Spread.Common.CultureManager.culture('zh-cn');
-  workbook = new spreadNS.Workbook(dom);
+  workbook = new GC.Spread.Sheets.Workbook(dom);
   json.activeSheetIndex = 0;
   workbook.fromJSON(json, { doNotRecalculateAfterLoad: true });
 
@@ -55,6 +57,6 @@ function initSpread(dom, json, options = {}) {
   return workbook;
 }
 
-export { GC, workbook };
+export { GC, Excel, excel, workbook };
 
 export default initSpread;
