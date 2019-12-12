@@ -12,7 +12,7 @@ install:
   - npm -g install webpack
 
 script:
-  - webpack
+  - webpack -p --config ./webpack.config.js
 
 deploy:
   provider: npm
@@ -22,6 +22,7 @@ deploy:
   on:
     tags: true
     repo: AngusYang9/ele-spreadjs
+  skip_cleanup: true
 
 after_deploy:
   - echo npm published!😊
