@@ -1,25 +1,20 @@
 language: node_js
-
 if: tag IS present
-
 node_js:
 - 11.10.1
-
 install:
-  - npm install webpack webpack-cli -g
-  - npm install webpack webpack-cli --save-dev
-
+- npm install webpack webpack-cli -g
+- npm install webpack webpack-cli --save-dev
 script:
-  - webpack
-
+- webpack
 deploy:
   provider: npm
   email: "${NPM_EMAIL}"
-  api_key: "${NPM_TOKEN}"
+  api_key:
+    secure: oUs7gGDRQ0c6w30usOtv19hADZ04lJ5QQvgHY0APHFzYbauinzhFhFluXaqFtHmmqg9Y0qu2IXxsEZY34lDsv6jR8qkFNLN9LHmzEhPhAPGNoDvaeXWPxf5uhMoX7JlRoO7z6HZjGjNtqmeBO/TaPzKXyQEpDTKW4weVwZr3XbNM6dvIzxzmYwpdyHiTtCrzAs1pYfDURdb0codOzgnqkWqnApeFCjFDrh9wTwkNOts+GYAm+3xyUN2j9Jz7sGR3t9ofkvFhOtmqJDjh8MH3qSiJmwthu9HARFSkiv+gcswyKuG32tZZH9NvXjeT+5pQ3YnUWsWxE9rhrriqaB+eMVknNulHLVhxMFLBD5PMOzoz2/gmMGNCp/iG0c1NMzKIsYOcry1XBzPFLDeuSR5TsKgaOrVPJyUeANSA6hnBjaJRiAj4qqDSTI//0w/eX4cZhUUPhLh0/8fykCOwl5GH0QzEoh817MZUrA/WxLd1FBCPPsjTeqroawbrqNJw0gq62gbM3tZD+KhFHAzCaQQM3QlI4a6oFExvYKpiE7mbzf+QniR36rVQRpIujjU0Gqn+RTYbkklOS3qfG+FZNQkYrGEcIOscLYotnLleG/1kdAOdCImPUr0qSOwM/2Eehe+90HfEW1zvxxC2koNYxZKmvik5sSABQYoAYZIooOBhE9E=
   on:
     tags: true
     repo: AngusYang9/ele-spreadjs
   skip_cleanup: true
-
 after_deploy:
-  - echo npm published!😊
+- "echo npm published!\U0001F60A"
