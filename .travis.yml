@@ -7,6 +7,7 @@ node_js:
 
 install:
   - npm install webpack webpack-cli -g
+  - npm install webpack webpack-cli --save-dev
 
 script:
   - webpack
