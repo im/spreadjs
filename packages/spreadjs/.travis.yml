@@ -11,7 +11,7 @@ before_install:
 install:
   - npm -g install webpack
 
-before_deploy:
+script:
   - webpack
 
 deploy:
