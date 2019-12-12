@@ -8,6 +8,9 @@ node_js:
 before_install:
   - echo "install ele-spreadjs dependencies"
 
+install:
+  - npm -g install webpack
+
 before_deploy:
   - webpack
 
