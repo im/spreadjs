@@ -1,12 +1,12 @@
 language: node_js
+
+if: tag IS present
+
 node_js:
 - 11.10.1
 
 before_install:
   - echo install ele-spreadjs dependencies
-
-install:
-  - npm install
 
 before_deploy:
   - webpack
