@@ -41,7 +41,7 @@ import { excel } from 'ele-spreadjs';
  * @param {Object} options 配置.
  * @return {String} return Promise.
  */
-excel.importFunc('xlsx', { pako: true }).then(res => {
+excel.importFunc('xlsx', { tagId: true, pako: true }).then(res => {
   console.log(res); // {json: ..., filename: ...}
 }).catch(e => {
   console.error(e);
