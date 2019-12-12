@@ -14,9 +14,8 @@ script:
 
 deploy:
   provider: npm
-  email: 1994101600@qq.com
-  token:
-    secure: RQ8E5c63/cuGHl/3OKAVOwTXsC1eIl6LCwaHTuuUP9mIHYt9Dc3QUpEfIOtpDu/pigy/YWsmKEit7TFUaE/BeAN6PRbMew2/AnNInQTIg3bH500jLz3tFyAJtCuhmavV41eafwMrBpTQejjv9NnVzDNgaJf2OqR06YDy6g1v0efzpyvWc640gtHR3moijW5hyG/e4poIkijStHxe6+iMWvOcu2kJjPs3o4Hokg6DztUEatifDDsS9ZP4i5knP5IGo+PXuIpnl3iTgWuyLGRMp9sYZXy6pM76mqIkwc1mYdDlW7Ovi/Qn09lF1Gdxo/HZgD3rId12r4f6DrA2HMnNTa7lXdsZSYm4RfqDVUMJ9MtcI6Z0zutmZRyMJ+/Xk2FCX+XshpZ9ssWqkndyrltZOVQ9SvUg9lBeFsYI2+GqijYXgrLeqnXohwsK28ahdxQ0upNcBb3YRXjaw/1kIk+X68+OVvkBXnjK9AcVkLhY7m1RjcnV/ZSMaVTqOWQObMNOBYibW6y3HhnhfjAlLfLMPDFJ21/DDhnzDYYEEzlBF717Hk2FNoJBJIV+nborx8vG/KWQcPmIyITpCSd+wyE6gad0ig55RKVIIQvj7Kds2JgB0frhvvXWIc69jP0pa0+fbyWZ/WEawaU5aPTOhc+9ayfTZ0Q3JegMgTLAi+c2sEE=
+  email: "${NPM_EMAIL}"
+  api_key: "${NPM_TOKEN}"
   on:
     tags: true
     repo: AngusYang9/ele-spreadjs
