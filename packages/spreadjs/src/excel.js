@@ -1,8 +1,9 @@
 import GC from '@grapecity/spread-sheets';
 import Excel from '@grapecity/spread-excelio';
 import pako from 'pako';
-import LicenseKey from './license';
 import FaverSaver from 'file-saver';
+import LicenseKey from './license';
+import addWorkBookTag from '../legacy/tagId';
 
 GC.Spread.Sheets.LicenseKey = LicenseKey;
 Excel.LicenseKey = LicenseKey;
@@ -41,12 +42,12 @@ function base64ToBlob(b64data, contentType, sliceSize) {
  * @param {Object} options 选项.
  * @return {String} return Promise.
  */
-function exportFunc(data, options = {filename: '未命名文件.xlsx', pako: false }) {
+function exportFunc(data, options = { filename: '未命名文件.xlsx', pako: false }) {
   return new Promise((resolve, reject) => {
     function download(json, fileName) {
       excelIo.save(json, (blob) => {
         // 使用 npm faie-server 替代原生写法
-        FaverSaver.saveAs(blob, fileName)
+        FaverSaver.saveAs(blob, fileName);
         // // for IE
         // if (window.navigator && window.navigator.msSaveOrOpenBlob) {
         //   window.navigator.msSaveOrOpenBlob(blob, fileName);
@@ -90,16 +91,23 @@ function exportFunc(data, options = {filename: '未命名文件.xlsx', pako: fal
  * @param {Object} options 选项.
  * @return {String} return Promise.
  */
-function importFunc(type, options = { pako: false }) {
+function importFunc(type, options = { tagId: false, pako: false }) {
   return new Promise((resolve, reject) => {
     function uploadFile(event) {
       const file = event.target.files[0];
       if (file && validFile(file)) {
         excelIo.open(file, (json) => {
+          if (options.tagId) {
+            const dom = document.createElement('div');
+            const workbook = new GC.Spread.Sheets.Workbook(dom);
+            workbook.fromJSON(json);
+            json = addWorkBookTag(workbook);
+          }
+
           if (options.pako) {
-            resolve({json: btoa(pako.gzip(JSON.stringify(json), { to: 'string' })), filename: file.name});
+            resolve({ json: btoa(pako.gzip(JSON.stringify(json), { to: 'string' })), filename: file.name });
           } else {
-            resolve({json, filename: file.name});
+            resolve({ json, filename: file.name });
           }
         }, (e) => {
           reject(e);

@@ -1,4 +1,4 @@
-import initSpread, { GC, Excel, excel } from './init';
+import initSpread, { GC, Excel, LicenseKey, excel } from './init';
 
-export { GC, Excel, excel };
+export { GC, Excel, LicenseKey, excel };
 export default initSpread;

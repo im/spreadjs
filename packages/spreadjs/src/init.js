@@ -16,7 +16,9 @@ Excel.LicenseKey = LicenseKey;
  * method recalculation excel formula.
  */
 function recalcAll() {
-  setTimeout(() => workbook.getActiveSheet().recalcAll());
+  setTimeout(() => {
+    workbook.getActiveSheet().recalcAll();
+  });
 }
 
 /**
@@ -57,6 +59,6 @@ function initSpread(dom, json, options = {}) {
   return workbook;
 }
 
-export { GC, Excel, excel, workbook };
+export { GC, Excel, LicenseKey, excel, workbook };
 
 export default initSpread;
