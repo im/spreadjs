@@ -9,10 +9,10 @@ before_install:
   - echo "install ele-spreadjs dependencies"
 
 install:
-  - npm -g install webpack
+  - npm i -D webpack-cli -g
 
 script:
-  - webpack -p --config ./webpack.config.js
+  - webpack
 
 deploy:
   provider: npm
