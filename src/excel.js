@@ -41,7 +41,7 @@ function base64ToBlob(b64data, contentType, sliceSize) {
  * @param {Object} options 选项.
  * @return {String} return Promise.
  */
-function exportFunc(data, options = { pako: false }) {
+function exportFunc(data, options = {filename: '未命名文件.xlsx', pako: false }) {
   return new Promise((resolve, reject) => {
     function download(json, fileName) {
       excelIo.save(json, (blob) => {
@@ -73,13 +73,13 @@ function exportFunc(data, options = { pako: false }) {
       const reader = new FileReader();
       reader.onload = e => {
         data = JSON.parse(pako.inflate(e.target.result, { to: 'string' }));
-        download(data, data.workbookName || '未命名文件.xlsx');
+        download(data, options.filename || data.workbookName || '未命名文件.xlsx');
       };
       base64ToBlob(data).then(blob => {
         reader.readAsArrayBuffer(blob);
       });
     } else {
-      download(data, data.workbookName || '未命名文件.xlsx');
+      download(data, options.filename || data.workbookName || '未命名文件.xlsx');
     }
   });
 }
@@ -97,9 +97,9 @@ function importFunc(type, options = { pako: false }) {
       if (file && validFile(file)) {
         excelIo.open(file, (json) => {
           if (options.pako) {
-            resolve(btoa(pako.gzip(JSON.stringify(json), { to: 'string' })), file.name);
+            resolve({json: btoa(pako.gzip(JSON.stringify(json), { to: 'string' })), filename: file.name});
           } else {
-            resolve(json, file.name);
+            resolve({json, filename: file.name});
           }
         }, (e) => {
           reject(e);
