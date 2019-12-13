@@ -1,6 +1,6 @@
 {
   "name": "ele-spreadjs",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "大象慧云spreadjs",
   "main": "lib/index.js",
   "scripts": {

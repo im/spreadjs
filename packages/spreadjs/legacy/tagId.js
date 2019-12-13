@@ -103,6 +103,7 @@ function addSheetTagId() {
   }
   return workbookData;
 }
+
 /**
  * method 为 workbook 添加 tagid 入口函数.
  * @param {Object} wb.
@@ -110,7 +111,6 @@ function addSheetTagId() {
  */
 export default function addWorkBookTag(wb) {
   workbook = wb;
-  debugger
   for (let index = workbook.getSheetCount() - 1; index >= 0; index--) {
     worksheet = workbook.getSheet(index);
 

@@ -1,7 +1,9 @@
 import GC from '@grapecity/spread-sheets';
 import Excel from '@grapecity/spread-excelio';
 import ZH from '@grapecity/spread-sheets-resources-zh';
-import '@grapecity/spread-sheets/styles/gc.spread.sheets.css'
+import $ from 'jquery';
+import '@grapecity/spread-sheets/styles/gc.spread.sheets.css';
+import '../style/cssprogress.css';
 import LicenseKey from './license';
 import context from './context';
 import comment from './comment';
@@ -9,6 +11,8 @@ import toolkit from './toolkit';
 import excel from './excel';
 
 let workbook = null;
+let exceldom = null;
+let processNode = null;
 GC.Spread.Sheets.LicenseKey = LicenseKey;
 Excel.LicenseKey = LicenseKey;
 
@@ -18,6 +22,7 @@ Excel.LicenseKey = LicenseKey;
 function recalcAll() {
   setTimeout(() => {
     workbook.getActiveSheet().recalcAll();
+    $(processNode).remove();
   });
 }
 
@@ -29,10 +34,22 @@ function recalcAll() {
  * @return {Object} return Spread workbook object.
  */
 function initSpread(dom, json, options = {}) {
+  exceldom = dom || exceldom;
   GC.Spread.Common.CultureManager.culture('zh-cn');
   workbook = new GC.Spread.Sheets.Workbook(dom);
   json.activeSheetIndex = 0;
   workbook.fromJSON(json, { doNotRecalculateAfterLoad: true });
+
+  processNode = $(`
+    <div class="cssProgress">
+      <div class="progress1">
+        <div class="cssProgress-bar cssProgress-active" data-percent="100" style="width: 100%;">
+          <span class="cssProgress-label" style="color: white">公式计算中，请稍后...</span>
+        </div>
+      </div>
+    </div>
+    `);
+  $(exceldom).prepend(processNode);
 
   // 滚动条是否对齐视图中表单的最后一行或一列
   workbook.options.scrollbarMaxAlign = true;
