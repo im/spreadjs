@@ -53,7 +53,7 @@ excel.importFunc('xlsx', { tagId: true, pako: true }).then(res => {
  * @param {Object} options 配置.
  * @return {String} return Promise { resolve file name }.
  */
-excel.exportFunc(json, {filename: '自定义文件名称.xlsx', pako: true }).then((filename) => {})
+excel.exportFunc(json, { filename: '自定义文件名称.xlsx', pako: true }).then((filename) => {})
 ```
 
 ### SpreadJS相关
