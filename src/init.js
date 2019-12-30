@@ -4,7 +4,7 @@ import ZH from '@grapecity/spread-sheets-resources-zh';
 import $ from 'jquery';
 import '@grapecity/spread-sheets/styles/gc.spread.sheets.css';
 import '../style/cssprogress.css';
-import LicenseKey from './license';
+import getLicenseKey from './license';
 import context from './context';
 import comment from './comment';
 import toolkit from './toolkit';
@@ -15,8 +15,11 @@ let workbook = null;
 let exceldom = null;
 let processNode = null;
 let sheetCache = [];
-GC.Spread.Sheets.LicenseKey = LicenseKey;
-Excel.LicenseKey = LicenseKey;
+
+function injectLicenseKey() {
+  GC.Spread.Sheets.LicenseKey = getLicenseKey();
+  Excel.LicenseKey = getLicenseKey();
+}
 
 /**
  * method sheet changed event and recalc formula.
@@ -64,6 +67,7 @@ function calcCurrentSheetFormula() {
  */
 function initSpread(dom, json, options = {}) {
   exceldom = dom || exceldom;
+  injectLicenseKey();
   GC.Spread.Common.CultureManager.culture('zh-cn');
   workbook = new GC.Spread.Sheets.Workbook(dom);
   json.activeSheetIndex = 0;
@@ -97,11 +101,10 @@ function initSpread(dom, json, options = {}) {
   if (options.toolkit) {
     toolkit(options.toolkit);
   }
-
-
+  
   return workbook;
 }
 
-export { GC, Excel, LicenseKey, excel, workbook };
+export { GC, Excel, excel, workbook };
 
 export default initSpread;
