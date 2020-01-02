@@ -14,6 +14,13 @@ npm install ele-spreadjs
 
 # 快速应用
 
+### 注入授权码
+
+```javascript
+import injectLicenseKey from 'ele-spreadjs';
+injectLicenseKey('授权码xxx');
+```
+
 ### 初始化
 
 ```javascript
