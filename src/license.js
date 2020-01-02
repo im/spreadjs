@@ -1,34 +1,18 @@
 /* eslint-disable */
+import {Excel, GC} from './init';
+
 /**
  * @file spreadjs v12
  * @date 2019/12/30
  */
 
-const isDevMode = process.env.NODE_ENV !== 'production';
-let LicenseKey = '';
-
-function getLicenseKey() {
-  const hostname = window.location.hostname;
-  switch (hostname) {
-    case 'localhost':
-      LicenseKey = '';
-      break;
-    case 'tspjs.ele-cloud.com':
-      LicenseKey = isDevMode ? '' : 'tspjs.ele-cloud.com,171851996612172#B0ehIWUdTRWx4Kt34Z6hmSMRjY4FDbDNXbNVURj94T03GZsF7cTV5c59WUTRGOkVFeWlmNyI6MkpWS0BjYCRHbCFTUVBXdS3ycp3kc84URNR4UOFkR4xkRw9mW42CZXlGVQhEb5YUdVhUQKdmRF5UMHlGUO34ThZGNPlFSrNEUBtCeZZkM8g5QCFVdmpkV6gXbW96YDJVVIh5RlBjV09kQhNEaQBlZnp5S8dmUw3SZPdkUPhUW5pkYEVERapXRGJld4ZTRLdlYBhUNVtmRGljc8kjZxZmRiVjSSdHdDxGapR4VQtSTG36Y8VDcTZlMtVjZIJWNSxEZyhXSiojITJCLigjQFZ4QxM4NiojIIJCLxADN8MjMzQTO0IicfJye35XX3JSSGljQiojIDJCLiITMuYHITpEIkFWZyB7UiojIOJyebpjIkJHUiwiIyETNwEDMgkTMzATOxAjMiojI4J7QiwiIt36YuQWdvx6YtUGbl9ycqB7c4JiOiMXbEJCLig1jlzahlDZmpnInm/KnmDoim/agmH0vkHpukfahmHasofKplLiOiEmTDJCLiIzNxITM6YTO9ETN8EzNxIiOiQWSiwSflNHbhZmOiI7ckJye0ICbuFkI1pjIEJCLi4TPRRkZ8RjWQpmd8gmSiR5YxZXdm3CMwVVWZ9WSphXRHZ7VhVlazcXTuBHRMlnUHlkbXBVYIdzUzJ6L7gzYXNWUjVjZGJWewomWzYzYyIzYv4WQvtWUQllWMJ7ZhFRM';
-      break;
-    case 'itax.ele-cloud.com':
-      LicenseKey = isDevMode ? '' : 'itax.ele-cloud.com,171851996612172#B0NNrRoZFcJdXM4YHVWF5d6d5M0VVdSZ5KY3kdiVDTPV6RxklTvgnSyEWMwgmQLVDOoBHVOFmTmd6K0ZWSXRWRKZja6Nke4hEUodnRidEemNzN7oFVll4TzdXSJp4StZzRVdmNzFjc7dWdWl6KUd5d6I6d826MQNmahJUe6IlVPFDdp3CcKJWUYlFdHN5NCp7U8pnbrNUdMlXMLpVUtFVYhlXOhBXbMRlR4smbmRXcSpHd0B5dHdmaWBjRthlcipGa9Q5RUNlUUd5NMdTYjN4R7AHaRlVcop6NXNnbr5UdzJUS6MFW4MFaXd7VlhHe94mQQBDRyImcEFDbiojITJCLiAjR8YjNGJjMiojIIJCLzMzNygzMzAzM0IicfJye#4Xfd5nIJZUOCJiOiMkIsIiMx8idgMlSgQWYlJHcTJiOi8kI1tlOiQmcQJCLicDNzADMxASNyQDM9EDMyIiOiQncDJCLi46bj9CZ53Gbj5SZsVmL8FGdpJiOiMXbEJCLig1jlzahlDZmpnInm/KnmDoim/agmH0vkHpukfahmHasofKplLiOiEmTDJCLiIzNxITM6YTO9ETN8EzNxIiOiQWSiwSflNHbhZmOiI7ckJye0ICbuFkI1pjIEJCLi4TPBR6Kx96N786Qxk4ZFhnUnF7N7tWNldHTPhFMohTdw2kd7lEM4ZEWkhXMvpnMiZEd48mMFdmYtRUa9d4Yahjc6hFdpJnW8FkcxclbIJXYvY7d7MVUPx4bPZTMw3UM';
-      break;
-    case 'itax-pre.ele-cloud.com':
-      LicenseKey = isDevMode ? '' : 'itax-pre.ele-cloud.com,171851996612172#B0AlKxEnMsZEeCdDV9Z4QvskbLZVYsNHZVtyd68mejlXcVN6YkVEWKdFanF6cvsyaLllczdVd6cET7JHOSVTZ6pVUSVDW9IUUwRldYZnNQZzc7FkVo9kex5kTGZmV9VnU6p5KVhTbBRnM6kFcjt6KTpGOMFXeNpmdmlGM7kUcvQXMw2iZ5llc4Fjanh5Z6JDZo9WcpVEM9UVdnR5KhlHMXdjaJhFahV4dD5GZ924MYtyK8gmZxIlRvADTJZzLJtGU7FWTuJVbmBHT9ITTuFjT5UFZ62iTYJHM8NHSxtEdwY7RvRFRLtmRWFENCJEUaN7NkZER6FVbzg6LollI0IyUiwiI8MUR4MUO8MjI0ICSiwiNzUjM4MDOyATM0IicfJye&Qf35VfikkR9IkI0IyQiwiIyEjL6ByUKBCZhVmcwNlI0IiTis7W0ICZyBlIsICNyQDMxADI9IDNwkTMwIjI0ICdyNkIsISbvNmLkV7bsNWLlxWZuUmcw5CehRXaiojIz5GRiwiI8+Y9sWY9QmZ0Jyp9vyp9Aqo9vGo9h+L9RqL9nWo9hGL0nSa9iojIh94QiwiIycTMyEjN6kTOxUDOxcTMiojIklkIs4XZzxWYmpjIyNHZisnOiwmbBJye0ICRiwiI34TQ4w6arYXUtlVOtpFOD3SOLBTczlnbwg7TGdnaZ3GToREaSt4V7lHRUl5ThRXShdkdCBXVSpEM7MEaNhjS0ZnbRZ4QwFkVmVURJhUMRJHTFRTVEJTOC54dmoFf4';
-      break;
-    case 'tax.weiyun.baidu.com':
-      LicenseKey = isDevMode ? '' : 'tax.weiyun.baidu.com|taxsit.dev.weiyun.baidu.com|taxdev.dev.weiyun.baidu.com,171851996612172#B03R32mUMR7TjV6dwtCWycGSqVVTRVlazUzLLVXSoFmbrVFUHRWRHh5dW3EMzJkdQNlSPVGNVtCR5onVyoFT83kMxomdillTDl6br3ySol4bJdGa6kmavNFU0pEUi3keVFXUsJGcMNXQwM4Uy2yRnRVSYFGTvcTM5AHUNZ5LHpHezoGVQNzcLZVRycDUzFGeyYmS7pHaZ5kbRt4QZ5WW6pFUVhVMwI5Z8c7M7wUYRxmbsdmRyd6MhtERNNjTz9We7lUZ8AVS7Nja7R5KRV5Lr2Cbi5USTZmMw3iZRpUMEdzVJN6QSRHewN6UkF6VO3Ub8QzTGN7Ru3UYyEUTtZVMhJER9kUcvFET9k5VmRUQvVUYr3CcGVmQiojITJCLiM4NycTQwMUMiojIIJCL7UTNyIzNyEDN0IicfJye35XX3JSSGljQiojIDJCLiITMuYHITpEIkFWZyB7UiojIOJyebpjIkJHUiwiI5IDM5UDMggDMxATOxAjMiojI4J7QiwiIt36YuUHZpFmYu8Wd9lWZ79idlRmL6VGZ8FGds46bj9SdklWYi9ib5lXaldnL6VGZuQXazhXY4xSbvNmL5RWahJmLuVXepV6dugXY4JiOiMXbEJCLig1jlzahlDZmpnInm/KnmDoim/agmH0vkHpukfahmHasofKplLiOiEmTDJCLiIzNxITM6YTO9ETN8EzNxIiOiQWSiwSflNHbhZmOiI7ckJye0ICbuFkI1pjIEJCLi4TPRFWYYx6S7V6d62yK0V4N8M6QvgnbjJ5VrQmQshWQQd7a7hjMrlmdhl4VQF7Q9FlVNxWR7pEWIpnNmRWZFhRcM9';
-      break;
-    default:
-      break;
-  }
-  return LicenseKey;
+/**
+ * method inject the spreadjs license key.
+ * @param {String} key SpreadJs license key.
+ */
+function injectLicenseKey(key) {
+  GC.Spread.Sheets.LicenseKey = key;
+  Excel.LicenseKey = key;
 }
 
-export default getLicenseKey;
+export default injectLicenseKey;

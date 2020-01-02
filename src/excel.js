@@ -2,16 +2,9 @@ import GC from '@grapecity/spread-sheets';
 import Excel from '@grapecity/spread-excelio';
 import pako from 'pako';
 import FaverSaver from 'file-saver';
-import getLicenseKey from './license';
 import addWorkBookTag from '../legacy/tagId';
 
-let excelIo = null;
-
-function injectLicenseKey() {
-  GC.Spread.Sheets.LicenseKey = getLicenseKey;
-  Excel.LicenseKey = getLicenseKey;
-  excelIo = new Excel.IO();
-}
+const excelIo = new Excel.IO();
 
 /**
  * base64 to blob.
@@ -47,7 +40,6 @@ function base64ToBlob(b64data, contentType, sliceSize) {
  * @return {String} return Promise.
  */
 function exportFunc(data, options = { filename: '未命名文件.xlsx', pako: false }) {
-  injectLicenseKey();
   return new Promise((resolve, reject) => {
     function download(json, fileName) {
       excelIo.save(json, (blob) => {
@@ -97,7 +89,6 @@ function exportFunc(data, options = { filename: '未命名文件.xlsx', pako: fa
  * @return {String} return Promise.
  */
 function importFunc(type, options = { tagId: false, pako: false }) {
-  injectLicenseKey();
   return new Promise((resolve, reject) => {
     function uploadFile(event) {
       const file = event.target.files[0];
