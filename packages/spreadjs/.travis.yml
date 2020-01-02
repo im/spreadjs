@@ -12,6 +12,12 @@ install:
 
 script:
   - webpack
+  - rm -rf legacy
+  - rm -rf src
+  - rm -rf style
+  - rm -f .gitignore
+  - rm -f webpack.config.js
+  - rm -f .travis.yml
 
 deploy:
   provider: npm
