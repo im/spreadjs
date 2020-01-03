@@ -17,7 +17,7 @@ npm install ele-spreadjs
 ### 注入授权码
 
 ```javascript
-import injectLicenseKey from 'ele-spreadjs';
+import { injectLicenseKey } from 'ele-spreadjs';
 injectLicenseKey('授权码xxx');
 ```
 
@@ -33,6 +33,8 @@ const options = {
   comment: true,
   // 工具箱
   toolkit: toolkitdom,
+  // 异步加载公式
+  async: true
 }
 const workbook = initSpread(exceldom, json, options);
 ```
