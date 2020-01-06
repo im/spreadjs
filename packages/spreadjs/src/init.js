@@ -1,6 +1,7 @@
 import GC from '@grapecity/spread-sheets';
 import Excel from '@grapecity/spread-excelio';
 import ZH from '@grapecity/spread-sheets-resources-zh';
+import '@grapecity/spread-sheets-print';
 import $ from 'jquery';
 import '@grapecity/spread-sheets/styles/gc.spread.sheets.css';
 import '../style/cssprogress.css';
