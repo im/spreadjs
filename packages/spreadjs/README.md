@@ -1,7 +1,6 @@
 <h1 align="center" style="margin: 30px 0 35px;">Ele SpreadJS</h1>
 <p align="center">
-  <a href="https://www.npmjs.com/package/ele-spreadjs"><img alt="npm" src="https://img.shields.io/npm/v/ele-spreadjs"></a>
-  <a href="https://travis-ci.org/AngusYang9/ele-spreadjs"><img src="https://travis-ci.org/AngusYang9/ele-spreadjs.svg?branch=master" /></a>
+  <a href="https://www.npmjs.com/package/@ele-cloud/spreadjs"><img alt="npm" src="https://img.shields.io/npm/v/@ele-cloud/spreadjs"></a>
 </p>
 
 🦑 **为大象慧云spreadjs打造功能性的封装，让前端只需专注业务开发，无需了解spreadjs繁琐的配置。**
@@ -9,7 +8,7 @@
 # 安装
 
 ```bash
-npm install ele-spreadjs
+npm install @ele-cloud/spreadjs
 ```
 
 # 快速应用
@@ -17,14 +16,14 @@ npm install ele-spreadjs
 ### 注入授权码
 
 ```javascript
-import { injectLicenseKey } from 'ele-spreadjs';
+import { injectLicenseKey } from '@ele-cloud/spreadjs';
 injectLicenseKey('授权码xxx');
 ```
 
 ### 初始化
 
 ```javascript
-import initSpread from 'ele-spreadjs';
+import initSpread from '@ele-cloud/spreadjs';
 
 const options = {
   // 右键菜单
@@ -42,7 +41,7 @@ const workbook = initSpread(exceldom, json, options);
 ### 导入导出excel
 
 ```javascript
-import { excel } from 'ele-spreadjs';
+import { excel } from '@ele-cloud/spreadjs';
 
 /**
  * method 导入文件.
@@ -68,6 +67,6 @@ excel.exportFunc(json, { filename: '自定义文件名称.xlsx', pako: true }).t
 ### SpreadJS相关
 
 ```javascript
-import { GC, Excel } from 'ele-spreadjs';
+import { GC, Excel } from '@ele-cloud/spreadjs';
 ```
 
