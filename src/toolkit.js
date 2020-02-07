@@ -1,13 +1,13 @@
 /**
  * @file 工具箱
  * @author Angus Yang
- * @date 2019/12/10
+ * @date 2020/2/7
  * @description
  */
 
 import $ from 'jquery';
 import { GC, workbook } from './init';
-import { BUTTON_STYLE, SPLIT_STYLE, UNCHECKED_COLOR, CHECKED_COLOR } from './style';
+import { BUTTON_STYLE, SELECT_STYLE, SPLIT_STYLE, UNCHECKED_COLOR, CHECKED_COLOR } from './style';
 import { formatterOptions, fontOptions, fontsizeOptions } from './options';
 
 let worksheet = null;
@@ -631,7 +631,7 @@ function unlock() {
  * method render toolkit.
  */
 function renderNode() {
-  return `<div style="width: 100%; height: 100%;">
+  return `<div id="ele-cloud-spreadjs-toolkit" style="width: 100%; height: 100%;">
     <button id="painter" style="${BUTTON_STYLE}">格式刷</button>
     <span style="${SPLIT_STYLE}">|</span>
     <button id="cellBold" style="${BUTTON_STYLE}">B</button>
@@ -639,15 +639,15 @@ function renderNode() {
     <button id="cellUnderline" style="${BUTTON_STYLE}">U</button>
     <span style="${SPLIT_STYLE}">|</span>
     <button style="${BUTTON_STYLE}">字体：</button>
-    <select id="cellFont">
+    <select id="cellFont" style="${SELECT_STYLE}">
     ${fontOptions.map(font => `<option value="${font.value}">${font.label}</option>`)}
     </select>
     <button style="${BUTTON_STYLE}">字体大小：</button>
-    <select id="cellFontsize">
+    <select id="cellFontsize" style="${SELECT_STYLE}">
     ${fontsizeOptions.map(font => `<option value="${font.value}">${font.label}</option>`)}
     </select>
     <button style="${BUTTON_STYLE}">单元格格式：</button>
-    <select id="cellFormatter">
+    <select id="cellFormatter" style="${SELECT_STYLE}">
     ${formatterOptions.map(font => `<option value="${font.value}">${font.label}</option>`)}
     </select>
     <span style="${SPLIT_STYLE}">|</span>

@@ -22,6 +22,10 @@ export const BUTTON_STYLE = `display: inline-block;
     border-color: transparent;
     `;
 export const SPLIT_STYLE = 'color: #adadad;';
+export const SELECT_STYLE = `
+    border:1px solid #CCC;
+    border-radius: 5px;
+`;
 
 export const CHECKED_COLOR = '#3795e5';
 export const UNCHECKED_COLOR = '#798194';
