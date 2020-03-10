@@ -91,10 +91,13 @@ function initSpread(dom, json = {}, options = {}) {
   // 滚动条是否对齐视图中表单的最后一行或一列
   workbook.options.scrollbarMaxAlign = true;
   
+  // 重新计算公式
   // workbook.options.calcOnDemand = true;
   
   // feature
-  if (options.recalc) {
+  if (options.async) {
+    bindSheetChanged();
+  } else {
     recalcAllFormula();
   }
   
