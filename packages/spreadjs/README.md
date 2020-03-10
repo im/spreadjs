@@ -32,8 +32,8 @@ const options = {
   comment: true,
   // 工具箱
   toolkit: toolkitdom,
-  // 重新计算公式
-  recalc: true
+  // 异步加载公式
+  async: true
 }
 const workbook = initSpread(exceldom, json, options);
 ```
