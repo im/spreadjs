@@ -138,6 +138,7 @@ function importFunc(type, options = { tagId: false, pako: false }) {
 
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
+    fileInput.style.display = 'none';
     document.body.appendChild(fileInput);
     fileInput.click();
     const userAgent = window.navigator.userAgent;
