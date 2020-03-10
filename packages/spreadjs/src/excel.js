@@ -34,6 +34,20 @@ function base64ToBlob(b64data, contentType, sliceSize) {
 }
 
 /**
+ * method fill filename suffix.
+ * @param {String} target Target string.
+ * @param {String} suffix.
+ * @return {String} return Filled string.
+ */
+function fillSuffix(target, suffix) {
+  if (!target.includes(suffix)) {
+    return target + '.' + suffix
+  } else {
+    return target
+  }
+}
+
+/**
  * method export.
  * @param {Object} data 数据源 josn.
  * @param {Object} options 选项.
@@ -42,6 +56,7 @@ function base64ToBlob(b64data, contentType, sliceSize) {
 function exportFunc(data, options = { filename: '未命名文件.xlsx', pako: false }) {
   return new Promise((resolve, reject) => {
     function download(json, fileName) {
+      fileName = fillSuffix(fileName, 'xlsx');
       excelIo.save(json, (blob) => {
         // 使用 npm faie-server 替代原生写法
         FaverSaver.saveAs(blob, fileName);
