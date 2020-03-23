@@ -6,7 +6,7 @@ module.exports = {
   mode: 'development',
   entry: './src/index.js',
   output: {
-    path: __dirname + '/lib',
+    path: __dirname + '/packages/spreadjs/lib',
     publicPath: '/dist/',
     filename: 'index.js',
     chunkFilename: '[id].js',
