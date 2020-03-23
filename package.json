@@ -1,40 +1,10 @@
 {
-  "name": "@ele-cloud/spreadjs",
-  "version": "12.1.2",
-  "description": "大象慧云spreadjs",
-  "main": "lib/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ele-cloud/spreadjs.git"
-  },
-  "keywords": [
-    "spreadjs"
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
   ],
-  "author": "Angus Yang",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ele-cloud/spreadjs/issues"
-  },
-  "homepage": "https://github.com/ele-cloud/spreadjs#readme",
-  "dependencies": {
-    "@grapecity/spread-excelio": "12.2.2",
-    "@grapecity/spread-sheets": "12.2.2",
-    "@grapecity/spread-sheets-print": "12.2.2",
-    "@grapecity/spread-sheets-resources-zh": "12.2.2",
-    "file-saver": "^2.0.2",
-    "jquery": "^3.4.1",
-    "pako": "^1.0.10"
-  },
   "devDependencies": {
-    "@babel/core": "^7.7.5",
-    "babel-loader": "^8.0.6",
-    "css-loader": "^3.3.0",
-    "progress-bar-webpack-plugin": "^1.12.1",
-    "style-loader": "^1.0.1",
-    "terser-webpack-plugin": "^2.2.2",
-    "webpack": "^4.41.2"
+    "lerna": "^3.20.2"
   }
 }
