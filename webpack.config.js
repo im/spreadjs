@@ -31,7 +31,22 @@ module.exports = {
       {
         test: /\.(jsx?|babel|es6)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
+        options:{
+          presets:[
+           '@babel/preset-env', {
+              corejs: 3,
+              targets: {
+                browsers: ["last 2 versions", "not ie <= 10"]
+              }
+            }
+          ],
+          plugins: [
+           ["@babel/transform-runtime", {
+					    corejs: 3,
+					  }]
+          ]
+        }
       },
       {
         test: /\.css$/,
