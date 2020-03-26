@@ -32,19 +32,19 @@ module.exports = {
         test: /\.(jsx?|babel|es6)$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        options:{
-          presets:[
-           '@babel/preset-env', {
-              corejs: 3,
+        options: {
+          presets: [
+            ['@babel/preset-env', {
               targets: {
-                browsers: ["last 2 versions", "not ie <= 10"]
+                browsers: ['last 2 versions', 'not ie <= 10']
               }
             }
+            ]
           ],
           plugins: [
-           ["@babel/transform-runtime", {
-					    corejs: 3,
-					  }]
+            ['@babel/transform-runtime', {
+              corejs: 3,
+            }]
           ]
         }
       },
