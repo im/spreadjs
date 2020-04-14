@@ -5,6 +5,11 @@
  * @description
  */
 
+import Vue from 'vue';
+import Tpl from './toolkit-tpl.vue';
+import { Button, Select } from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+
 import $ from 'jquery';
 import { GC, workbook } from './init';
 import { BUTTON_STYLE, SELECT_STYLE, SPLIT_STYLE, UNCHECKED_COLOR, CHECKED_COLOR } from './style';
@@ -677,27 +682,36 @@ function renderNode() {
  * @param {Object} dom The dom that toolkit will be rendered.
  */
 export default function toolkit(dom) {
-  $(dom).append(renderNode());
+  new Vue({
+    el: dom,
+    component: Tpl,
+  });
+
+  Vue.use(Button);
+  Vue.use(Select);
+
   syncSpread();
   bindEvnet();
   Object.assign(cellStyle, getCellStyle());
-  $('#painter').on('click', painterCopy);
-  $('#cellBold').on('click', boldCell);
-  $('#cellItalic').on('click', italicCell);
-  $('#cellUnderline').on('click', underlineCell);
-  $('#cellFont').on('change', setFont);
-  $('#cellFontsize').on('change', setFontsize);
-  $('#cellFormatter').on('change', setFormatter);
-  $('#cellLeft').on('click', hAlignCell.bind(null, 'left'));
-  $('#cellCenter').on('click', hAlignCell.bind(null, 'center'));
-  $('#cellRight').on('click', hAlignCell.bind(null, 'right'));
-  $('#cellTop').on('click', vAlignCell.bind(null, 'top'));
-  $('#cellMiddle').on('click', vAlignCell.bind(null, 'center'));
-  $('#cellBottom').on('click', vAlignCell.bind(null, 'bottom'));
-  $('#cellMerge').on('click', mergeCell);
-  $('#cellUnMerge').on('click', unmergeCell);
-  $('#cellBorder').on('click', addBorder);
-  $('#cellUnBorder').on('click', delBorder);
-  $('#cellMicrometerOperator').on('click', setFormatter.bind(null, '#,##0.00'));
-  $('#cellUnLock').on('click', unlock);
+
+
+  // $('#painter').on('click', painterCopy);
+  // $('#cellBold').on('click', boldCell);
+  // $('#cellItalic').on('click', italicCell);
+  // $('#cellUnderline').on('click', underlineCell);
+  // $('#cellFont').on('change', setFont);
+  // $('#cellFontsize').on('change', setFontsize);
+  // $('#cellFormatter').on('change', setFormatter);
+  // $('#cellLeft').on('click', hAlignCell.bind(null, 'left'));
+  // $('#cellCenter').on('click', hAlignCell.bind(null, 'center'));
+  // $('#cellRight').on('click', hAlignCell.bind(null, 'right'));
+  // $('#cellTop').on('click', vAlignCell.bind(null, 'top'));
+  // $('#cellMiddle').on('click', vAlignCell.bind(null, 'center'));
+  // $('#cellBottom').on('click', vAlignCell.bind(null, 'bottom'));
+  // $('#cellMerge').on('click', mergeCell);
+  // $('#cellUnMerge').on('click', unmergeCell);
+  // $('#cellBorder').on('click', addBorder);
+  // $('#cellUnBorder').on('click', delBorder);
+  // $('#cellMicrometerOperator').on('click', setFormatter.bind(null, '#,##0.00'));
+  // $('#cellUnLock').on('click', unlock);
 }
