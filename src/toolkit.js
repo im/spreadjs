@@ -30,7 +30,7 @@ export default function toolkit(dom) {
   Vue.component('ColorPicker', ColorPicker);
   Vue.component('Tooltip', Tooltip);
 
-  const vm = new Vue({
+  new Vue({
     el: dom,
     template: '<Toolkit :GC="GC" :workbook="workbook" :font-options="fontOptions" :fontsize-options="fontsizeOptions" :formatter-options="formatterOptions"></Toolkit>',
     components: { Toolkit },
