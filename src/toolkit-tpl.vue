@@ -887,6 +887,9 @@
       this.bindEvent();
       Object.assign(this.cellStyle, this.getCellStyle());
     },
+    beforeDestroy() {
+    
+    },
     watch: {
       visibleCellColorPicker: function (newVal) {
         this.$refs.cellColorPicker.$el.children[0].click()
@@ -899,10 +902,7 @@
 </script>
 <style>
   @import "../style/font/iconfont.css";
-
-  .split {
-    color: #adadad;
-  }
+  @import "../style/iviewfont/ionicons.css";
 
   .toolkit-select {
     display: inline-block;
@@ -911,22 +911,22 @@
 
   .toolkit-list-validator-input {
     margin-right: 5px;
-    width: 150px;
+    width: 150px !important;
   }
 
   .ivu-select-single .ivu-select-selection {
-    height: 29.4px;
+    height: 29.4px !important;
   }
 
   .ivu-select-single .ivu-select-selection .ivu-select-placeholder, .ivu-select-single .ivu-select-selection .ivu-select-selected-value {
-    height: 29.4px;
-    line-height: 29.4px;
+    height: 29.4px !important;
+    line-height: 29.4px !important;
   }
 
   .ivu-color-picker-rel {
-    visibility: hidden;
-    width: 0;
-    height: 0;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
   }
 
   .toolkit-color-picker {

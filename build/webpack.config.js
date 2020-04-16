@@ -1,13 +1,15 @@
 const path = require('path');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const vueLoaderConfig = require('./vue-loader.conf');
+const { VueLoaderPlugin } = require('vue-loader')
 
 module.exports = {
   mode: 'development',
   entry: './src/index.js',
   output: {
-    path: __dirname + '/packages/spreadjs/lib',
-    publicPath: '/dist/',
+    path: path.resolve(__dirname, '../packages/spreadjs/lib'),
+    publicPath: './',
     filename: 'index.js',
     chunkFilename: '[id].js',
     // libraryExport: 'default',
@@ -53,6 +55,19 @@ module.exports = {
         }
       },
       {
+        test: /\.less$ /,
+        loaders: ['style-loader', 'css-loader', 'less-loader']
+      },
+      {
+        test: /\.scss$ /,
+        loaders: ['style-loader', 'css-loader', 'sass-loader']
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: vueLoaderConfig
+      },
+      {
         test: /\.css$/,
         loaders: ['style-loader', 'css-loader']
       },
@@ -67,6 +82,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new ProgressBarPlugin()
+    new ProgressBarPlugin(),
+    new VueLoaderPlugin()
   ]
 }

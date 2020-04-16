@@ -4,6 +4,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "build": "rimraf packages/spreadjs/lib && cross-env NODE_ENV=production webpack --config build/webpack.config.js && node build/bin/readme.js"
+  },
   "dependencies": {
     "@grapecity/spread-excelio": "12.2.2",
     "@grapecity/spread-sheets": "12.2.2",
@@ -11,6 +14,7 @@
     "@grapecity/spread-sheets-resources-zh": "12.2.2",
     "file-saver": "^2.0.2",
     "iview": "^3.5.4",
+    "jquery": "^3.5.0",
     "pako": "^1.0.10",
     "vue": "^2.6.11"
   },
@@ -23,12 +27,23 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-import": "^1.13.0",
     "core-js": "3",
+    "cross-env": "^7.0.2",
     "css-loader": "^3.3.0",
+    "file-loader": "^6.0.0",
     "lerna": "^3.20.2",
+    "less-loader": "^5.0.0",
+    "postcss-loader": "^3.0.0",
     "progress-bar-webpack-plugin": "^1.12.1",
     "regenerator-runtime": "^0.13.5",
-    "style-loader": "^1.0.1",
+    "rimraf": "^3.0.2",
+    "scss-loader": "^0.0.1",
+    "style-loader": "^1.1.4",
     "terser-webpack-plugin": "^2.2.2",
-    "webpack": "^4.41.2"
+    "url-loader": "^4.1.0",
+    "vue-loader": "^15.9.1",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.11"
   }
 }

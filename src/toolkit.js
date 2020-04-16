@@ -8,7 +8,7 @@
 import Vue from 'vue/dist/vue.esm.js';
 import Toolkit from './toolkit-tpl.vue';
 import { Button, Select, Input, Option, Dropdown, DropdownMenu, DropdownItem, Icon, ButtonGroup, ColorPicker, Tooltip } from 'iview';
-import 'iview/dist/styles/iview.css'
+import 'iview/dist/styles/iview.css';
 
 import { GC, workbook } from './init';
 import { formatterOptions, fontOptions, fontsizeOptions } from './options';
