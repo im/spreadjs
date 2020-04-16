@@ -1,6 +1,6 @@
 {
   "name": "@ele-cloud/spreadjs",
-  "version": "12.1.0-alpha.0",
+  "version": "12.1.1-alpha.0",
   "description": "大象慧云spreadjs",
   "main": "src/index.js",
   "scripts": {
@@ -22,15 +22,15 @@
     "url": "https://github.com/ele-cloud/spreadjs/issues"
   },
   "peerDependencies": {
-    "vue": "^2.5.2",
-    "iview": "^3.5.4",
     "@grapecity/spread-excelio": "^13.0.7",
     "@grapecity/spread-sheets": "^13.0.7",
     "@grapecity/spread-sheets-print": "^13.0.7",
     "@grapecity/spread-sheets-resources-zh": "^13.0.7",
     "file-saver": "^2.0.2",
+    "iview": "^3.5.4",
     "jquery": "^3.5.0",
-    "pako": "^1.0.10"
+    "pako": "^1.0.10",
+    "vue": "^2.5.2"
   },
   "homepage": "https://github.com/ele-cloud/spreadjs#readme"
 }
