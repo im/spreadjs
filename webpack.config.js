@@ -44,6 +44,10 @@ module.exports = {
           plugins: [
             ['@babel/transform-runtime', {
               corejs: 3,
+            }],
+            ["import", {
+              "libraryName": "iview",
+              "libraryDirectory": "src/components"
             }]
           ]
         }
