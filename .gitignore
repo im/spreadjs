@@ -1,4 +1,8 @@
 /node_modules
 /.idea
 /yarn-error.log
-lib
+
+packages/spreadjs/lib
+packages/spreadjs/legacy
+packages/spreadjs/src
+packages/spreadjs/style
