@@ -8,7 +8,9 @@
 
 由于 gcexcel 过大，并且引入了 vue, iview 使得整体体积超过 7mb, 如果此时 package 预先编译, 项目中继续引用并二次编译，会造成大量冗余代码，导致项目卡顿严重。所以我们将编译完全交由项目自身去处理。
 
-# 后编译配置
+# 准备工作
+
+### 后编译
 
 1. 后编译安装
 
@@ -35,6 +37,26 @@ module.exports = {
 {
  "compileDependencies": ["@ele-cloud/spreadjs"],
 }
+```
+
+### iview 按需引入
+
+1. iview 安装
+
+```bash
+npm install iview
+```
+
+2. .babelrc
+
+```javascript
+plugin: [
+  // ...
+  ["import", {
+    "libraryName": "iview",
+    "libraryDirectory": "src/components"
+  }]
+]
 ```
 
 # 安装
