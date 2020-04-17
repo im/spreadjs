@@ -19,7 +19,8 @@ npm install webpack-post-compile-plugin
 2. webpack config file
 
 ```javascript
-const PostCompilePlugin = require('webpack-post-compile-plugin')
+const PostCompilePlugin = require('webpack-post-compile-plugin');
+
 module.exports = {
   // ...
   plugins: [
