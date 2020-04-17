@@ -24,8 +24,8 @@
 
       <!--字体-->
       <div class="toolkit-select">
-        <Tooltip content="字体" :delay="tipsDelay">
-          <Select size="default" v-model="cellStyle.cellFont" @on-select="setFont" placeholder="字体：">
+        <Tooltip content="字体" :delay="tipsDelay" :disabled="tooltip.cellFont">
+          <Select size="default" v-model="cellStyle.cellFont" @on-select="setFont" placeholder="字体：" @on-open-change="bool => tooltip.cellFont = bool">
             <Option v-for="item in fontOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </Tooltip>
@@ -33,8 +33,8 @@
 
       <!--字体大小-->
       <div class="toolkit-select">
-        <Tooltip content="字体大小" :delay="tipsDelay">
-          <Select size="default" v-model="cellStyle.cellFontsize" @on-select="setFontsize" placeholder="大小：">
+        <Tooltip content="字体大小" :delay="tipsDelay" :disabled="tooltip.cellFontSize">
+          <Select size="default" v-model="cellStyle.cellFontsize" @on-select="setFontsize" placeholder="大小：" @on-open-change="bool => tooltip.cellFontSize = bool">
             <Option v-for="item in fontsizeOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </Tooltip>
@@ -42,8 +42,8 @@
 
       <!--格式-->
       <div class="toolkit-select">
-        <Tooltip content="格式" :delay="tipsDelay">
-          <Select size="default" v-model="cellStyle.cellFormatter" @on-select="setFormatter" placeholder="格式：">
+        <Tooltip content="格式" :delay="tipsDelay" :disabled="tooltip.cellFormatter">
+          <Select size="default" v-model="cellStyle.cellFormatter" @on-select="setFormatter" placeholder="格式：" @on-open-change="bool => tooltip.cellFormatter = bool">
             <Option v-for="item in formatterOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </Tooltip>
@@ -213,16 +213,21 @@
           cellMiddle: false,
           cellBottom: false,
           cellFormatter: 'normal',
-          cellFont: '宋体',
+          cellFont: 'SimSun',
           cellFontsize: '12px',
           cellMicrometerOperator: false,
           cellColor: '',
           cellBgColor: '',
         },
+        tooltip: {
+          cellFont: false,
+          cellFontSize: false,
+          cellFormatter: false,
+        },
         clickCell: {},
         visibleCellColorPicker: false,
         visibleCellBgColorPicker: false,
-        tipsDelay: 1500,
+        tipsDelay: 1200,
         listOptions: '',
         listValidatorVisible: false
       }
@@ -903,6 +908,10 @@
 <style>
   @import "../style/font/iconfont.css";
   /*@import "../style/iviewfont/ionicons.css";*/
+
+  #ele-cloud-spreadjs-toolkit {
+    line-height: 3;
+  }
 
   .toolkit-select {
     display: inline-block;
