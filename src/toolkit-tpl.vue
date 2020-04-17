@@ -888,7 +888,7 @@
       Object.assign(this.cellStyle, this.getCellStyle());
     },
     beforeDestroy() {
-    
+
     },
     watch: {
       visibleCellColorPicker: function (newVal) {
@@ -902,7 +902,7 @@
 </script>
 <style>
   @import "../style/font/iconfont.css";
-  @import "../style/iviewfont/ionicons.css";
+  /*@import "../style/iviewfont/ionicons.css";*/
 
   .toolkit-select {
     display: inline-block;
@@ -927,6 +927,10 @@
     visibility: hidden !important;
     width: 0 !important;
     height: 0 !important;
+  }
+
+  .ivu-input-icon-validate {
+    display: none !important;
   }
 
   .toolkit-color-picker {
