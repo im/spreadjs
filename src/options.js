@@ -59,7 +59,7 @@ export const fontOptions = [
     value: 'STSong',
   },
   {
-    label: '华文宋体',
+    label: '华文黑体',
     value: 'STHeiti',
   },
   {
