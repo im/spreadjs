@@ -55,8 +55,24 @@ export const formatterOptions = [
 ];
 export const fontOptions = [
   {
-    label: '宋体',
-    value: '宋体',
+    label: '华文宋体',
+    value: 'STSong',
+  },
+  {
+    label: '华文宋体',
+    value: 'STHeiti',
+  },
+  {
+    label: '华文仿宋',
+    value: 'STFangsong',
+  },
+  {
+    label: '华文楷体',
+    value: 'STKaiti',
+  },
+  {
+    label: 'Arial',
+    value: 'Arial',
   }
 ];
 export const fontsizeOptions = [
