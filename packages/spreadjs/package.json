@@ -1,6 +1,6 @@
 {
   "name": "@ele-cloud/spreadjs",
-  "version": "12.1.1-alpha.0",
+  "version": "13.0.0-alpha.0",
   "description": "大象慧云spreadjs",
   "main": "src/index.js",
   "scripts": {
@@ -26,7 +26,9 @@
   "bugs": {
     "url": "https://github.com/ele-cloud/spreadjs/issues"
   },
-  "compileDependencies": ["iview"],
+  "compileDependencies": [
+    "iview"
+  ],
   "peerDependencies": {
     "@grapecity/spread-excelio": "^13.0.7",
     "@grapecity/spread-sheets": "^13.0.7",
