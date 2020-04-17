@@ -41,10 +41,10 @@ module.exports = {
 
 ### iview 按需引入
 
-1. iview 安装
+1. babel-plugin-import 安装
 
 ```bash
-npm install iview
+npm install babel-plugin-import -D
 ```
 
 2. .babelrc
