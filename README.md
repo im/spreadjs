@@ -32,9 +32,7 @@ module.exports = {
 
 ```json
 {
- // ...
  "compileDependencies": ["@ele-cloud/spreadjs"],
- // ...
 }
 ```
 

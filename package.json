@@ -5,6 +5,7 @@
     "packages/*"
   ],
   "scripts": {
+    "readme": "node build/bin/readme.js",
     "build": "rimraf packages/spreadjs/lib && cross-env NODE_ENV=production webpack --config build/webpack.config.js && node build/bin/readme.js",
     "build:source": "node build/bin/source.js"
   },
