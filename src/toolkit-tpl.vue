@@ -171,9 +171,16 @@
       </Dropdown>
 
       <!--解锁-->
-      <Button type="default" @click="unlock" size="small">
+      <Button type="default" @click="lock(true)" size="small" v-show="!cellStyle.isLocked">
         <Tooltip content="解锁" :delay="tipsDelay">
           <i class="spreadfont spreadjiesuo"></i>
+        </Tooltip>
+      </Button>
+      <!-- or -->
+      <!--加锁-->
+      <Button type="default" @click="lock(false)" size="small" v-show="cellStyle.isLocked">
+        <Tooltip content="加锁" :delay="tipsDelay">
+          <i class="spreadfont spreadsuo"></i>
         </Tooltip>
       </Button>
     </div>
@@ -218,6 +225,7 @@
           cellMicrometerOperator: false,
           cellColor: '',
           cellBgColor: '',
+          isLocked: '',
         },
         tooltip: {
           cellFont: false,
@@ -272,7 +280,11 @@
         const sheet = this.worksheet;
         const sel = sheet.getSelections();
         if (sel.length > 0) {
+
+          this.cellStyle.isLocked = sheet.getCell(sel[0].row, sel[0].col).locked();
+
           const style = sheet.getStyle(sel[0].row, sel[0].col) || new this.GC.Spread.Sheets.Style();
+
           if (!style) {
             return;
           }
@@ -332,7 +344,6 @@
           this.cellStyle.cellColor = style.foreColor || '#000000';
           this.cellStyle.cellBgColor = style.backColor || '#ffffff';
 
-          // this.updateCellStyle();
           return this.cellStyle;
         }
       },
@@ -786,16 +797,19 @@
       },
 
       /**
-       * method unlock.
+       * method lock & unlock.
+       * @param {Boolean} isLock Lock or unlock.
        */
-      unlock() {
+      lock(isLock) {
         const sheet = this.worksheet;
         const sel = sheet.getSelections();
         sheet.suspendPaint();
         if (sel.length > 0) {
-          sheet.getRange(sel[0].row, sel[0].col, sel[0].rowCount, sel[0].colCount).locked(false);
+          sheet.getRange(sel[0].row, sel[0].col, sel[0].rowCount, sel[0].colCount).locked(isLock);
         }
         sheet.resumePaint();
+
+        this.cellStyle.isLocked = isLock;
       },
 
       cellColorFunc(e) {
