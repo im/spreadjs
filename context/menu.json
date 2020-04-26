@@ -18,17 +18,5 @@
     "command": "filter",
     "workArea": "viewport"
   },
-  {
-    "text": "冻结单元格",
-    "name": "frozenAction",
-    "command": "frozenAction",
-    "workArea": "viewport"
-  },
-  {
-    "text": "取消冻结单元格",
-    "name": "removeFrozenAction",
-    "command": "removeFrozenAction",
-    "workArea": "viewport"
-  },
   { "type": "separator" }
 ]

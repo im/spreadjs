@@ -7,7 +7,7 @@ import '@grapecity/spread-sheets/styles/gc.spread.sheets.css';
 import '../style/cssprogress.css';
 import context from '../context';
 import comment from './comment';
-import toolkit from './toolkit';
+import toolkit from '../toolkit';
 import excel from './excel';
 import calc from './calc';
 

@@ -329,35 +329,6 @@
         }
       }
 
-      // 增加冻结窗格功能
-      Commands.frozenAction = {
-        canUndo: false,
-        execute: (spread, options) => {
-          self.syncSpread();
-          self.worksheet.suspendPaint();
-
-          self.worksheet.frozenRowCount(self.clickCell.row);
-          self.worksheet.frozenColumnCount(self.clickCell.col);
-          self.worksheet.options.frozenlineColor = 'red';
-
-          self.worksheet.resumePaint();
-        },
-      }
-
-      // 删除冻结窗格
-      Commands.removeFrozenAction = {
-        canUndo: false,
-        execute: (spread, options) => {
-          self.syncSpread();
-          self.worksheet.suspendPaint();
-
-          self.worksheet.frozenRowCount(0);
-          self.worksheet.frozenColumnCount(0);
-
-          self.worksheet.resumePaint();
-        },
-      }
-
       for (let key of Object.keys(Commands)) {
         commandManager.register(key, Commands[key], null, false, false, false, false);
       }

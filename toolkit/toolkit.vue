@@ -25,7 +25,8 @@
       <!--字体-->
       <div class="toolkit-select">
         <Tooltip content="字体" :delay="tipsDelay" :disabled="tooltip.cellFont">
-          <Select size="default" v-model="cellStyle.cellFont" @on-select="setFont" placeholder="字体：" @on-open-change="bool => tooltip.cellFont = bool">
+          <Select size="default" v-model="cellStyle.cellFont" @on-select="setFont" placeholder="字体："
+                  @on-open-change="bool => tooltip.cellFont = bool">
             <Option v-for="item in fontOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </Tooltip>
@@ -34,7 +35,8 @@
       <!--字体大小-->
       <div class="toolkit-select">
         <Tooltip content="字体大小" :delay="tipsDelay" :disabled="tooltip.cellFontSize">
-          <Select size="default" v-model="cellStyle.cellFontsize" @on-select="setFontsize" placeholder="大小：" @on-open-change="bool => tooltip.cellFontSize = bool">
+          <Select size="default" v-model="cellStyle.cellFontsize" @on-select="setFontsize" placeholder="大小："
+                  @on-open-change="bool => tooltip.cellFontSize = bool">
             <Option v-for="item in fontsizeOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </Tooltip>
@@ -43,7 +45,8 @@
       <!--格式-->
       <div class="toolkit-select">
         <Tooltip content="格式" :delay="tipsDelay" :disabled="tooltip.cellFormatter">
-          <Select size="default" v-model="cellStyle.cellFormatter" @on-select="setFormatter" placeholder="格式：" @on-open-change="bool => tooltip.cellFormatter = bool">
+          <Select size="default" v-model="cellStyle.cellFormatter" @on-select="setFormatter" placeholder="格式："
+                  @on-open-change="bool => tooltip.cellFormatter = bool">
             <Option v-for="item in formatterOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </Tooltip>
@@ -165,7 +168,7 @@
           </Tooltip>
         </Button>
         <DropdownMenu slot="list">
-          <Input class="toolkit-list-validator-input" v-model="listOptions" placeholder='eg: 1,2,3,4,5,...' />
+          <Input class="toolkit-list-validator-input" v-model="listOptions" placeholder='eg: 1,2,3,4,5,...'/>
           <Button type="primary" @click="setListValidator(listOptions)">确定</Button>
         </DropdownMenu>
       </Dropdown>
@@ -183,13 +186,25 @@
           <i class="spreadfont spreadsuo"></i>
         </Tooltip>
       </Button>
+
+      <!--冻结/取消冻结单元格-->
+      <Dropdown trigger="click" @on-click="frozen">
+        <Button size="small">
+          <Tooltip content="冻结单元格" :delay="tipsDelay">
+            <i class="spreadfont spreaddongjiedanyuange"> </i>
+            <Icon type="ios-arrow-down"></Icon>
+          </Tooltip>
+        </Button>
+        <DropdownMenu slot="list">
+          <DropdownItem name="frozenCell">冻结单元格</DropdownItem>
+          <DropdownItem name="removeFrozenCell">取消冻结单元格</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
     </div>
   </div>
 </template>
 
 <script>
-  import {GC, workbook} from './init';
-
   export default {
     name: 'Toolkit',
     props: {
@@ -810,6 +825,33 @@
         sheet.resumePaint();
 
         this.cellStyle.isLocked = isLock;
+      },
+
+      /**
+       * method frozen cell.
+       */
+      frozen(value) {
+        switch (value) {
+          case 'frozenCell':
+            this.worksheet.suspendPaint();
+
+            this.worksheet.frozenRowCount(this.clickCell.row);
+            this.worksheet.frozenColumnCount(this.clickCell.col);
+            this.worksheet.options.frozenlineColor = 'red';
+
+            this.worksheet.resumePaint();
+            break;
+          case 'removeFrozenCell':
+            this.worksheet.suspendPaint();
+
+            this.worksheet.frozenRowCount(0);
+            this.worksheet.frozenColumnCount(0);
+
+            this.worksheet.resumePaint();
+            break;
+          default:
+            break;
+        }
       },
 
       cellColorFunc(e) {

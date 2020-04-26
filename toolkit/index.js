@@ -6,18 +6,18 @@
  */
 
 import Vue from 'vue/dist/vue.esm.js';
-import Toolkit from './toolkit-tpl.vue';
+import Toolkit from './toolkit.vue';
 import { Button, Select, Input, Option, Dropdown, DropdownMenu, DropdownItem, Icon, ButtonGroup, ColorPicker, Tooltip } from 'iview';
 import 'iview/dist/styles/iview.css';
 
-import { GC, workbook } from './init';
-import { formatterOptions, fontOptions, fontsizeOptions } from './options';
+import { GC, workbook } from '../src/init';
+import { formatterOptions, fontOptions, fontsizeOptions } from '../src/options';
 
 /**
  * method toolkit for spreadjs.
  * @param {Object} dom The dom that toolkit will be rendered.
  */
-export default function toolkit(dom) {
+export default function index(dom) {
   Vue.component('Button', Button);
   Vue.component('Select', Select);
   Vue.component('Input', Input);
