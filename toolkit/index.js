@@ -6,8 +6,8 @@
  */
 
 import Vue from 'vue/dist/vue.esm.js';
-import Toolkit from './toolkit.vue';
-import { Button, Select, Input, Option, Dropdown, DropdownMenu, DropdownItem, Icon, ButtonGroup, ColorPicker, Tooltip } from 'iview';
+import Toolkit from './main.vue';
+import { Button, Select, Input, Option, Dropdown, DropdownMenu, DropdownItem, Icon, ButtonGroup, ColorPicker, Tooltip, Poptip } from 'iview';
 import 'iview/dist/styles/iview.css';
 
 import { GC, workbook } from '../src/init';
@@ -29,13 +29,11 @@ export default function index(dom) {
   Vue.component('ButtonGroup', ButtonGroup);
   Vue.component('ColorPicker', ColorPicker);
   Vue.component('Tooltip', Tooltip);
+  Vue.component('Poptip', Poptip);
 
   new Vue({
     el: dom,
-    template: '<Toolkit :GC="GC" :workbook="workbook" :font-options="fontOptions" :fontsize-options="fontsizeOptions" :formatter-options="formatterOptions"></Toolkit>',
-    components: { Toolkit },
-    data: {
-      GC, workbook, formatterOptions, fontOptions, fontsizeOptions
-    }
+    template: '<Toolkit></Toolkit>',
+    components: { Toolkit }
   });
 }

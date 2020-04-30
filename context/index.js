@@ -2,7 +2,7 @@ import { GC, workbook } from '../src/init';
 
 import Vue from 'vue/dist/vue.esm.js';
 import Context from './context.vue';
-import { Button, Select, Input, Option, Dropdown, DropdownMenu, DropdownItem, Icon, ButtonGroup, ColorPicker, Tooltip, Modal, RadioGroup, Radio } from 'iview';
+import { Button, Select, Checkbox, Input, Option, Dropdown, DropdownMenu, DropdownItem, Icon, ButtonGroup, ColorPicker, Tooltip, Modal, RadioGroup, Radio, InputNumber } from 'iview';
 
   /**
  * method spread右键功能.
@@ -22,6 +22,8 @@ export default function context() {
     Vue.component('Modal', Modal);
     Vue.component('RadioGroup', RadioGroup);
     Vue.component('Radio', Radio);
+    Vue.component('InputNumber', InputNumber);
+    Vue.component('Checkbox', Checkbox);
 
     const contextDom = document.createElement('div');
     document.body.appendChild(contextDom);

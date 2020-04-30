@@ -1,221 +1,12 @@
-<template>
-  <div>
-    <div id="ele-cloud-spreadjs-toolkit" style="width: 100%; height: 100%;position: relative">
-      <!--撤销，重做-->
-      <ButtonGroup>
-        <Button type="default" @click="undoCommand" size="small">
-          <Tooltip content="撤销" :delay="tipsDelay">
-            <i class="spreadfont spreadchexiao"></i>
-          </Tooltip>
-        </Button>
-        <Button type="default" @click="redoCommand" size="small">
-          <Tooltip content="恢复" :delay="tipsDelay">
-            <i class="spreadfont spreadhuifu"></i>
-          </Tooltip>
-        </Button>
-      </ButtonGroup>
+import { GC, workbook } from '../src/init';
+import { formatterOptions, fontOptions, fontsizeOptions } from '../src/options';
 
-      <!--格式刷-->
-      <Button :type="formatPainter.isPainting ? 'primary' : 'default'" size="small" @click="painterCopy">
-        <Tooltip content="格式刷" :delay="tipsDelay">
-          <i class="spreadfont spreadpainter"></i>
-        </Tooltip>
-      </Button>
-
-      <!--字体-->
-      <div class="toolkit-select">
-        <Tooltip content="字体" :delay="tipsDelay" :disabled="tooltip.cellFont">
-          <Select size="default" v-model="cellStyle.cellFont" @on-select="setFont" placeholder="字体："
-                  @on-open-change="bool => tooltip.cellFont = bool">
-            <Option v-for="item in fontOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
-          </Select>
-        </Tooltip>
-      </div>
-
-      <!--字体大小-->
-      <div class="toolkit-select">
-        <Tooltip content="字体大小" :delay="tipsDelay" :disabled="tooltip.cellFontSize">
-          <Select size="default" v-model="cellStyle.cellFontsize" @on-select="setFontsize" placeholder="大小："
-                  @on-open-change="bool => tooltip.cellFontSize = bool">
-            <Option v-for="item in fontsizeOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
-          </Select>
-        </Tooltip>
-      </div>
-
-      <!--格式-->
-      <div class="toolkit-select">
-        <Tooltip content="格式" :delay="tipsDelay" :disabled="tooltip.cellFormatter">
-          <Select size="default" v-model="cellStyle.cellFormatter" @on-select="setFormatter" placeholder="格式："
-                  @on-open-change="bool => tooltip.cellFormatter = bool">
-            <Option v-for="item in formatterOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
-          </Select>
-        </Tooltip>
-      </div>
-
-      <!--B I U-->
-      <ButtonGroup>
-        <Button :type="cellStyle.cellBold ? 'primary' : 'default'" @click="boldCell" size="small">
-          <Tooltip content="加粗" :delay="tipsDelay">
-            <i class="spreadfont spreadjiacu"></i>
-          </Tooltip>
-        </Button>
-        <Button :type="cellStyle.cellItalic ? 'primary' : 'default'" @click="italicCell" size="small">
-          <Tooltip content="斜体" :delay="tipsDelay">
-            <i class="spreadfont spreadxieti"></i>
-          </Tooltip>
-        </Button>
-        <Button :type="cellStyle.cellUnderline ? 'primary' : 'default'" @click="underlineCell" size="small">
-          <Tooltip content="下划线" :delay="tipsDelay">
-            <i class="spreadfont spreadUnderline"></i>
-          </Tooltip>
-        </Button>
-      </ButtonGroup>
-
-      <!--字体/背景颜色-->
-      <div style="position: relative;display: inline-block">
-        <ButtonGroup>
-          <Button size="small" @click.stop="cellColorFunc">
-            <Tooltip content="字体颜色" :delay="tipsDelay">
-              <i class="spreadfont spreadzitiyanse"></i>
-              <Icon type="ios-arrow-down"></Icon>
-            </Tooltip>
-          </Button>
-          <Button size="small" @click.stop="cellColorBgFunc">
-            <Tooltip content="背景颜色" :delay="tipsDelay">
-              <i class="spreadfont spreadbeijingyanse"></i>
-              <Icon type="ios-arrow-down"></Icon>
-            </Tooltip>
-          </Button>
-        </ButtonGroup>
-        <ColorPicker ref="cellColorPicker" v-model="cellStyle.cellColor" @on-change="setFontColor"
-                     class="toolkit-color-picker"/>
-        <ColorPicker ref="cellBgColorPicker" v-model="cellStyle.cellBgColor" @on-change="setBgColor"
-                     class="toolkit-color-picker--bg"/>
-      </div>
-
-      <!--边框-->
-      <Dropdown trigger="click" @on-click="borderFunc">
-        <Button size="small">
-          <Tooltip content="添加边框" :delay="tipsDelay">
-            <i class="spreadfont spreadjurassic_border-bottom"></i>
-            <Icon type="ios-arrow-down"></Icon>
-          </Tooltip>
-        </Button>
-        <DropdownMenu slot="list">
-          <DropdownItem name="addBorder">所有框线</DropdownItem>
-          <DropdownItem name="delBorder">无框线</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-
-      <!--水平对齐-->
-      <ButtonGroup>
-        <Button :type="cellStyle.cellLeft ? 'primary' : 'default'" @click="hAlignCell('left')" size="small">
-          <Tooltip content="左对齐" :delay="tipsDelay">
-            <i class="spreadfont spreadzuoduiqi"></i>
-          </Tooltip>
-        </Button>
-        <Button :type="cellStyle.cellCenter ? 'primary' : 'default'" @click="hAlignCell('center')" size="small">
-          <Tooltip content="居中对齐" :delay="tipsDelay">
-            <i class="spreadfont spreadjuzhong"></i>
-          </Tooltip>
-        </Button>
-        <Button :type="cellStyle.cellRight ? 'primary' : 'default'" @click="hAlignCell('right')" size="small">
-          <Tooltip content="右对齐" :delay="tipsDelay">
-            <i class="spreadfont spreadyouduiqi"></i>
-          </Tooltip>
-        </Button>
-      </ButtonGroup>
-
-      <!--垂直对齐-->
-      <ButtonGroup>
-        <Button :type="cellStyle.cellTop ? 'primary' : 'default'" @click="vAlignCell('top')" size="small">
-          <Tooltip content="上对齐" :delay="tipsDelay">
-            <i class="spreadfont spreadshangduiqi"></i>
-          </Tooltip>
-        </Button>
-        <Button :type="cellStyle.cellMiddle ? 'primary' : 'default'" @click="vAlignCell('center')" size="small">
-          <Tooltip content="居中对齐" :delay="tipsDelay">
-            <i class="spreadfont spreadshuipingjuzhong"></i>
-          </Tooltip>
-        </Button>
-        <Button :type="cellStyle.cellBottom ? 'primary' : 'default'" @click="vAlignCell('bottom')" size="small">
-          <Tooltip content="下对齐" :delay="tipsDelay">
-            <i class="spreadfont spreadxiaduiqi"></i>
-          </Tooltip>
-        </Button>
-      </ButtonGroup>
-
-      <!--合并/取消合并单元格-->
-      <Dropdown trigger="click" @on-click="mergeFunc">
-        <Button size="small">
-          <Tooltip content="合并单元格" :delay="tipsDelay">
-            <i class="spreadfont spreadhebingdanyuange"> </i>
-            <Icon type="ios-arrow-down"></Icon>
-          </Tooltip>
-        </Button>
-        <DropdownMenu slot="list">
-          <DropdownItem name="mergeCell">合并单元格</DropdownItem>
-          <DropdownItem name="unmergeCell">取消合并单元格</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-
-      <!--下拉列表-->
-      <Dropdown trigger="custom" :visible="listValidatorVisible">
-        <Button size="small" @click="listValidatorVisible = !listValidatorVisible">
-          <Tooltip content="下拉列表" :delay="tipsDelay">
-            <i class="spreadfont spreadxialaxuanxiang"></i>
-            <Icon type="ios-arrow-down"></Icon>
-          </Tooltip>
-        </Button>
-        <DropdownMenu slot="list">
-          <Input class="toolkit-list-validator-input" v-model="listOptions" placeholder='eg: 1,2,3,4,5,...'/>
-          <Button type="primary" @click="setListValidator(listOptions)">确定</Button>
-        </DropdownMenu>
-      </Dropdown>
-
-      <!--解锁-->
-      <Button type="default" @click="lock(true)" size="small" v-show="!cellStyle.isLocked">
-        <Tooltip content="解锁" :delay="tipsDelay">
-          <i class="spreadfont spreadjiesuo"></i>
-        </Tooltip>
-      </Button>
-      <!-- or -->
-      <!--加锁-->
-      <Button type="default" @click="lock(false)" size="small" v-show="cellStyle.isLocked">
-        <Tooltip content="加锁" :delay="tipsDelay">
-          <i class="spreadfont spreadsuo"></i>
-        </Tooltip>
-      </Button>
-
-      <!--冻结/取消冻结单元格-->
-      <Dropdown trigger="click" @on-click="frozen">
-        <Button size="small">
-          <Tooltip content="冻结单元格" :delay="tipsDelay">
-            <i class="spreadfont spreaddongjiedanyuange"> </i>
-            <Icon type="ios-arrow-down"></Icon>
-          </Tooltip>
-        </Button>
-        <DropdownMenu slot="list">
-          <DropdownItem name="frozenCell">冻结单元格</DropdownItem>
-          <DropdownItem name="removeFrozenCell">取消冻结单元格</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-    </div>
-  </div>
-</template>
-
-<script>
-  export default {
-    name: 'Toolkit',
-    props: {
-      GC: Object,
-      workbook: Object,
-      formatterOptions: Array,
-      fontOptions: Array,
-      fontsizeOptions: Array,
-    },
+export default {
     data() {
       return {
+        GC,
+        workbook,
+        formatterOptions, fontOptions, fontsizeOptions,
         worksheet: null,
         // 格式刷
         formatPainter: {
@@ -241,6 +32,7 @@
           cellColor: '',
           cellBgColor: '',
           isLocked: '',
+          wordWrap: false,
         },
         tooltip: {
           cellFont: false,
@@ -250,9 +42,10 @@
         clickCell: {},
         visibleCellColorPicker: false,
         visibleCellBgColorPicker: false,
-        tipsDelay: 1200,
+        tipsDelay: 1000,
         listOptions: '',
-        listValidatorVisible: false
+        listValidatorVisible: false,
+        viewport: 'large' // small default large
       }
     },
     methods: {
@@ -297,6 +90,7 @@
         if (sel.length > 0) {
 
           this.cellStyle.isLocked = sheet.getCell(sel[0].row, sel[0].col).locked();
+          this.cellStyle.wordWrap = sheet.getCell(sel[0].row, sel[0].col).wordWrap();
 
           const style = sheet.getStyle(sel[0].row, sel[0].col) || new this.GC.Spread.Sheets.Style();
 
@@ -561,7 +355,7 @@
           const range = sheet.getRange(sel[0].row, sel[0].col, sel[0].rowCount, sel[0].colCount);
           for (let row = range.row; row < (range.row + range.rowCount); row++) {
             for (let col = range.col; col < (range.col + range.colCount); col++) {
-              const style = sheet.getStyle(row, col) || new GC.Spread.Sheets.Style();
+              const style = sheet.getStyle(row, col) || new this.GC.Spread.Sheets.Style();
               if (!style.font) {
                 style.font = 'normal normal 12px 宋体';
               }
@@ -667,7 +461,7 @@
           const range = sheet.getRange(sel[0].row, sel[0].col, sel[0].rowCount, sel[0].colCount);
           for (let row = range.row; row < (range.row + range.rowCount); row++) {
             for (let col = range.col; col < (range.col + range.colCount); col++) {
-              sheet.getCell(row, col).vAlign(GC.Spread.Sheets.VerticalAlign[align]);
+              sheet.getCell(row, col).vAlign(this.GC.Spread.Sheets.VerticalAlign[align]);
             }
           }
         }
@@ -740,6 +534,25 @@
         sheet.resumePaint();
       },
 
+      /**
+       * method auto word wrap.
+       */
+      setWordWrap() {
+        const sheet = this.worksheet;
+        const sel = sheet.getSelections();
+        sheet.suspendPaint();
+        if (sel.length > 0) {
+          const range = sheet.getRange(sel[0].row, sel[0].col, sel[0].rowCount, sel[0].colCount);
+          for (let row = range.row; row < (range.row + range.rowCount); row++) {
+            for (let col = range.col; col < (range.col + range.colCount); col++) {
+              sheet.getCell(row, col).wordWrap(!this.cellStyle.wordWrap);
+            }
+          }
+        }
+        this.cellStyle.wordWrap = !this.cellStyle.wordWrap;
+        sheet.resumePaint();
+      },
+
       borderFunc(value) {
         this[value]();
       },
@@ -809,6 +622,182 @@
         }
         sheet.resumePaint();
         this.cellStyle.cellFormatter = value;
+      },
+
+      getSelections () {
+        return this.worksheet.getSelections();
+      },
+
+      /**
+       * method increase decimal.
+       */
+      increaseDecimal() {
+        var self = this, formatString, zero, numberSign, decimalPoint, zeroPointZero;
+        var _selections = this.getSelections();
+        for (var p = 0; p < _selections.length; p++) {
+          var selectCells = _selections[p];
+          var defaultActiveCell = self.worksheet.getCell(selectCells.row, selectCells.col);
+          var defaultFormatter = defaultActiveCell.formatter();
+          var defaultText = defaultActiveCell.value();
+          var i;
+          if (defaultText !== undefined && defaultText !== null) {
+            zero = "0";
+            numberSign = "#";
+            decimalPoint = ".";
+            zeroPointZero = "0" + decimalPoint + "0";
+
+            var scientificNotationCheckingFormatter = self.getScientificNotationCheckingFormattter(defaultFormatter);
+            if (!defaultFormatter || (defaultFormatter === "General" || (scientificNotationCheckingFormatter && (scientificNotationCheckingFormatter.indexOf("E") >= 0 || scientificNotationCheckingFormatter.indexOf('e') >= 0)))) {
+              scientificNotationCheckingFormatter = zeroPointZero;
+              if ((!isNaN(defaultText)) && ((defaultText + "").split(".").length > 1)) {
+
+                var afterPointZero = (defaultText + "").split(".")[1].length;
+                for (var m = 0; m < afterPointZero; m++) {
+                  scientificNotationCheckingFormatter = scientificNotationCheckingFormatter + "0";
+                }
+              }
+            } else {
+              formatString = defaultFormatter;
+              var formatters = formatString.split(';');
+              for (i = 0; i < formatters.length && i < 2; i++) {
+                if (formatters[i] && formatters[i].indexOf("/") < 0 && formatters[i].indexOf(":") < 0 && formatters[i].indexOf("?") < 0) {
+                  var indexOfDecimalPoint = formatters[i].lastIndexOf(decimalPoint);
+                  if (indexOfDecimalPoint !== -1) {
+                    formatters[i] = formatters[i].slice(0, indexOfDecimalPoint + 1) + zero + formatters[i].slice(indexOfDecimalPoint + 1);
+                  } else {
+                    var indexOfZero = formatters[i].lastIndexOf(zero);
+                    var indexOfNumberSign = formatters[i].lastIndexOf(numberSign);
+                    var insertIndex = indexOfZero > indexOfNumberSign ? indexOfZero : indexOfNumberSign;
+                    if (insertIndex >= 0) {
+                      formatters[i] = formatters[i].slice(0, insertIndex + 1) + decimalPoint + zero + formatters[i].slice(insertIndex + 1);
+                    }
+                  }
+                }
+              }
+              formatString = formatters.join(";");
+              scientificNotationCheckingFormatter = formatString;
+            }
+            for (var r = selectCells.row; r < selectCells.rowCount + selectCells.row; r++) {
+              for (var c = selectCells.col; c < selectCells.colCount + selectCells.col; c++) {
+                var style = self.worksheet.getActualStyle(r, c);
+                style.formatter = scientificNotationCheckingFormatter;
+                self.worksheet.setStyle(r, c, style);
+              }
+            }
+          }
+        }
+      },
+
+      getSubStrings(source, beginChar, endChar) {
+        if (!source) {
+          return [];
+        }
+
+        var subStrings = [], tempSubString = '', inSubString = false;
+        for (var index = 0; index < source.length; index++) {
+          if (!inSubString && source[index] === beginChar) {
+            inSubString = true;
+            tempSubString = source[index];
+            continue;
+          }
+          if (inSubString) {
+            tempSubString += source[index];
+            if (source[index] === endChar) {
+              subStrings.push(tempSubString);
+              tempSubString = "";
+              inSubString = false;
+            }
+          }
+        }
+        return subStrings;
+      },
+
+      getScientificNotationCheckingFormattter(formatter) {
+        if (!formatter) {
+          return formatter;
+        }
+
+        var self = this, i;
+        var signalQuoteSubStrings = self.getSubStrings(formatter, '\'', '\'');
+        for (i = 0; i < signalQuoteSubStrings.length; i++) {
+          formatter = formatter.replace(signalQuoteSubStrings[i], '');
+        }
+        var doubleQuoteSubStrings = self.getSubStrings(formatter, '\"', '\"');
+        for (i = 0; i < doubleQuoteSubStrings.length; i++) {
+          formatter = formatter.replace(doubleQuoteSubStrings[i], '');
+        }
+        var colorStrings = this.getSubStrings(formatter, '[', ']');
+        for (i = 0; i < colorStrings.length; i++) {
+          formatter = formatter.replace(colorStrings[i], '');
+        }
+        return formatter;
+      },
+
+      /**
+       * method decrease decimal.
+       */
+      decreaseDecimal() {
+        var self = this, decimalPoint;
+        var _selections = this.getSelections();
+        for (var p = 0; p < _selections.length; p++) {
+          var selectCells = _selections[p];
+          var defaultActiveCell = self.worksheet.getCell(selectCells.row, selectCells.col);
+          var defaultFormatter = defaultActiveCell.formatter();
+          var defaultText = defaultActiveCell.value();
+          decimalPoint = ".";
+          var i;
+          if (defaultText !== undefined && defaultText !== null) {
+            var formatString = null;
+            if (!defaultFormatter || defaultFormatter === "General") {
+              if (!isNaN(defaultText)) {
+                var result = defaultText.split('.');
+                if (result.length === 2) {
+                  result[0] = "0";
+                  var isScience = false;
+                  var sb = "";
+                  for (i = 0; i < result[1].length - 1; i++) {
+                    if ((i + 1 < result[1].length) && (result[1].charAt(i + 1) === 'e' || result[1].charAt(i + 1) === 'E')) {
+                      isScience = true;
+                      break;
+                    }
+                    sb = sb + ('0');
+                  }
+
+                  if (isScience) {
+                    sb = sb + ("E+00");
+                  }
+                  result[1] = sb.toString();
+                  formatString = result[0] + (result[1] !== "" ? decimalPoint + result[1] : "");
+                }
+              }
+            } else {
+              formatString = defaultFormatter;
+              var formatters = formatString.split(';');
+              for (i = 0; i < formatters.length && i < 2; i++) {
+                if (formatters[i] && formatters[i].indexOf("/") < 0 && formatters[i].indexOf(":") < 0 && formatters[i].indexOf("?") < 0) {
+                  var indexOfDecimalPoint = formatters[i].lastIndexOf(decimalPoint);
+                  if (indexOfDecimalPoint !== -1 && indexOfDecimalPoint + 1 < formatters[i].length) {
+                    formatters[i] = formatters[i].slice(0, indexOfDecimalPoint + 1) + formatters[i].slice(indexOfDecimalPoint + 2);
+                    var tempString = indexOfDecimalPoint + 1 < formatters[i].length ? formatters[i].substr(indexOfDecimalPoint + 1, 1) : "";
+                    if (tempString === "" || tempString !== "0") {
+                      formatters[i] = formatters[i].slice(0, indexOfDecimalPoint) + formatters[i].slice(indexOfDecimalPoint + 1);
+                    }
+                  } else {
+                    //do nothing.
+                  }
+                }
+              }
+              formatString = formatters.join(";");
+            }
+            for (var r = selectCells.row; r < selectCells.rowCount + selectCells.row; r++) {
+              for (var c = selectCells.col; c < selectCells.colCount + selectCells.col; c++) {
+                var style = self.worksheet.getActualStyle(r, c);
+                style.formatter = formatString;
+                self.worksheet.setStyle(r, c, style);
+              }
+            }
+          }
+        }
       },
 
       /**
@@ -941,12 +930,43 @@
 
         this.listOptions = '';
         this.listValidatorVisible = false;
-      }
+      },
+
+      setListValidatorVisible() {
+        this.listValidatorVisible = !this.listValidatorVisible;
+      },
     },
     mounted() {
       this.syncSpread();
       this.bindEvent();
       Object.assign(this.cellStyle, this.getCellStyle());
+
+      let bodyWidth = document.body.getBoundingClientRect().width;
+      if (bodyWidth <= 1260 && bodyWidth >= 1060) {
+        this.viewport = 'middle';
+      } else if (bodyWidth > 1260) {
+        this.viewport = 'large';
+      } else if (bodyWidth < 1060){
+        this.viewport = 'small';
+      }
+      window.onresize = (() => {
+        let canRun = true;
+        return () => {
+          if (!canRun) return;
+          canRun = false;
+          setTimeout(() => {
+            let bodyWidth = document.body.getBoundingClientRect().width;
+            if (bodyWidth <= 1260 && bodyWidth >= 1060) {
+              this.viewport = 'middle';
+            } else if (bodyWidth > 1260) {
+              this.viewport = 'large';
+            } else if (bodyWidth < 1060){
+              this.viewport = 'small';
+            }
+            canRun = true;
+          }, 500);
+        };
+      })()
     },
     beforeDestroy() {
 
@@ -960,53 +980,5 @@
       },
     }
   }
-</script>
-<style>
-  @import "../style/font/iconfont.css";
-  /*@import "../style/iviewfont/ionicons.css";*/
 
-  #ele-cloud-spreadjs-toolkit {
-    line-height: 3;
-  }
 
-  .toolkit-select {
-    display: inline-block;
-    /*width: 80px;*/
-  }
-
-  .toolkit-list-validator-input {
-    margin-right: 5px;
-    width: 150px !important;
-  }
-
-  .ivu-select-single .ivu-select-selection {
-    height: 29.4px !important;
-  }
-
-  .ivu-select-single .ivu-select-selection .ivu-select-placeholder, .ivu-select-single .ivu-select-selection .ivu-select-selected-value {
-    height: 29.4px !important;
-    line-height: 29.4px !important;
-  }
-
-  .ivu-color-picker-rel {
-    visibility: hidden !important;
-    width: 0 !important;
-    height: 0 !important;
-  }
-
-  .ivu-input-icon-validate {
-    display: none !important;
-  }
-
-  .toolkit-color-picker {
-    position: relative;
-    left: -76px;
-    top: 10px;
-  }
-
-  .toolkit-color-picker--bg {
-    position: relative;
-    left: -32px;
-    top: 10px;
-  }
-</style>

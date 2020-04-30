@@ -3,7 +3,7 @@ import Excel from '@grapecity/spread-excelio';
 import ZH from '@grapecity/spread-sheets-resources-zh';
 import '@grapecity/spread-sheets-print';
 import $ from 'jquery';
-import '@grapecity/spread-sheets/styles/gc.spread.sheets.css';
+import '@grapecity/spread-sheets/styles/gc.spread.sheets.excel2013white.css';
 import '../style/cssprogress.css';
 import context from '../context';
 import comment from './comment';

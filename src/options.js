@@ -6,11 +6,7 @@ export const formatterOptions = [
   },
   {
     label: '数字',
-    value: '0.00',
-  },
-  {
-    label: '千分符',
-    value: '#,##0.00',
+    value: '#,##0',
   },
   {
     label: '货币',
@@ -22,11 +18,11 @@ export const formatterOptions = [
   },
   {
     label: '短日期',
-    value: 'yyyy/m/d',
+    value: '[$]m/d/yyyy',
   },
   {
     label: '长日期',
-    value: 'dddd, mmmm dd, yyyy',
+    value: '[$-x-systime]h:mm:ss AM/PM',
   },
   {
     label: '时间',
@@ -34,10 +30,6 @@ export const formatterOptions = [
   },
   {
     label: '百分比',
-    value: '0%',
-  },
-  {
-    label: '百分比(保留两位小数)',
     value: '0.00%',
   },
   {

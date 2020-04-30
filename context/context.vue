@@ -47,14 +47,55 @@
         </Radio>
       </RadioGroup>
     </Modal>
+
+    <!--设置单元格格式dialog-->
+    <Modal
+      v-model="formatCellsDialogVisible"
+      title="设置单元格格式"
+      size="small"
+      @on-ok="setFormat"
+      @on-cancel="formatCellsDialogVisible = false">
+      <div class="format-wrapper">
+        <div class="left-part">
+          <div class="part-title">分类</div>
+          <ul class="format-category-list focused">
+            <li v-for="item in formatterOptions"
+                :class="formatCellsValue === item.value && 'selected'"
+              @click="changeFormat(item.value)"
+            >{{item.label}}</li>
+          </ul>
+        </div>
+        <div class="right-part">
+          <div class="format-example-part">
+            <div class="part-title">示例</div>
+            <Input class="format-example-input" v-model="formatCellSample"  disabled></Input>
+          </div>
+          <div class="format-category-tip">
+            <normal v-show="formatCellsValue === 'normal'"></normal>
+            <number v-show="'#,##0'.includes(formatCellsValue)"></number>
+          </div>
+        </div>
+      </div>
+    </Modal>
+
+    <!--spread-->
+    <div id="ele-cloud-spreadjs_context" style="display: none"></div>
   </div>
 </template>
 
 <script>
+  import { formatterOptions } from '../src/options';
+  import normal from './formatCells/normal';
+  import number from './formatCells/number';
+  import GC from '@grapecity/spread-sheets';
   const menus = require('./menu.json');
 
   export default {
     name: 'ContextCore',
+    components: {
+      normal,
+      number,
+    },
     props: {
       GC: Object,
       workbook: Object,
@@ -71,7 +112,20 @@
         // 删除
         deleteDialogVisible: false,
         deleteValue: 'shiftcellsup',
+
+        // 设置单元格格式
+        formatCellsDialogVisible: false,
+        formatCellsValue: 'normal',
+        formatterOptions,
+        formatCellSample: '',
+        formatCellInfo: {
+        },
+
+        // 占位spread
+        spread: null,
       }
+    },
+    computed: {
     },
     methods: {
       syncSpread() {
@@ -107,7 +161,7 @@
         }
         return selectionType;
       },
-      getSortedColumnSelections () {
+      getSortedColumnSelections() {
         var sortedRanges = this.getSelections();
         for (var i = 0; i < sortedRanges.length - 1; i++) {
           for (var j = i + 1; j < sortedRanges.length; j++) {
@@ -120,7 +174,7 @@
         }
         return sortedRanges;
       },
-      getSortedRowSelections () {
+      getSortedRowSelections() {
         var sortedRanges = this.getSelections();
         for (var i = 0; i < sortedRanges.length - 1; i++) {
           for (var j = i + 1; j < sortedRanges.length; j++) {
@@ -133,7 +187,7 @@
         }
         return sortedRanges;
       },
-      getSelections () {
+      getSelections() {
         return this.worksheet.getSelections();
       },
       getUnFilteredRows(range, filterInfo) {
@@ -266,10 +320,20 @@
             break;
         }
         this.deleteDialogVisible = false;
-      }
+      },
+      changeFormat(value) {
+        this.formatCellsValue = value;
+        const res = this.formatCellsValue === 'normal' ? undefined : this.formatCellsValue;
+        this.spread.getActiveSheet().getCell(0, 0).formatter(res);
+        this.formatCellSample = this.spread.getActiveSheet().getText(0, 0);
+      },
+      setFormat() {
+        const res = this.formatCellsValue === 'normal' ? undefined : this.formatCellsValue;
+        this.worksheet.getCell(this.clickCell.row, this.clickCell.col).formatter(res);
+        this.formatCellsDialogVisible = false;
+      },
     },
     mounted() {
-
     },
     created() {
       const self = this;
@@ -329,11 +393,40 @@
         }
       }
 
+      // 清除内容
+      Commands.clearContent = {
+        canUndo: false,
+        execute: function (context, options, isUndo) {
+          self.syncSpread();
+          var selections = self.getSelections();
+          for (var i = 0; i < selections.length; i++) {
+            var selection = selections[i];
+            self.worksheet.clear(selection.row, selection.col, selection.rowCount, selection.colCount, self.GC.Spread.Sheets.SheetArea.viewport /* viewport */, self.GC.Spread.Sheets.StorageType.data /* Data */);
+          }
+        }
+      }
+
+      // 设置单元格格式...
+      Commands.formatCells = {
+        canUndo: false,
+        execute: function (context, options, isUndo) {
+          self.syncSpread();
+          self.formatCellsValue = self.worksheet.getCell(self.clickCell.row, self.clickCell.col).formatter() || 'normal';
+          const value = self.worksheet.getValue(self.clickCell.row, self.clickCell.col);
+          const text = self.worksheet.getText(self.clickCell.row, self.clickCell.col);
+          self.spread.getActiveSheet().setValue(0, 0, value);
+          self.formatCellSample = text;
+          self.formatCellsDialogVisible = true;
+        }
+      }
+
       for (let key of Object.keys(Commands)) {
         commandManager.register(key, Commands[key], null, false, false, false, false);
       }
 
       self.syncSpread();
+
+      this.spread = new GC.Spread.Sheets.Workbook(document.getElementById('ele-cloud-spreadjs_context'));
     },
     beforeDestroy() {
 
@@ -342,5 +435,49 @@
   }
 </script>
 <style>
+  .format-wrapper {
+    display: flex;
+  }
 
+  .left-part {
+    width: 132px;
+    margin-right: 17px;
+  }
+
+  .part-title {
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .format-category-list {
+    background-color: #fff;
+    border: 1px solid #ececed;
+    border-radius: 2px;
+    padding: 5px 0;
+    font-size: 12px;
+  }
+
+  .format-category-list li {
+    height: 26px;
+    line-height: 26px;
+    padding-left: 12px;
+    cursor: pointer;
+  }
+
+  .format-category-list li.selected {
+    background-color: #f7f7f7;
+    font-weight: 700;
+  }
+
+  .right-part {
+    width: 320px;
+  }
+
+  .format-category-tip {
+    height: 40px;
+    line-height: 20px;
+    margin-top: 10px;
+    font-size: 12px;
+    user-select: none;
+  }
 </style>
