@@ -150,11 +150,11 @@
         </DropdownMenu>
       </Dropdown>
 
-      <span class="toolkit-divider" v-if="viewport === 'middle' || viewport === 'large'">
+      <span class="toolkit-divider">
         <i class="spreadfont spreadshuxian"></i>
       </span>
 
-      <div style="display: flex" v-if="viewport === 'middle' || viewport === 'large'">
+      <div class="toolkit-group">
         <!--水平对齐-->
         <Dropdown trigger="click" @on-click="hAlignCell">
           <Button size="small" type="text">
@@ -241,13 +241,13 @@
             <i class="spreadfont spreadwenbenhuanhang"></i>
           </Tooltip>
         </Button>
+
+        <span class="toolkit-divider">
+          <i class="spreadfont spreadshuxian"></i>
+        </span>
       </div>
 
-      <span class="toolkit-divider" v-if="viewport === 'large'">
-        <i class="spreadfont spreadshuxian"></i>
-      </span>
-
-      <div style="display: flex" v-if="viewport === 'large'">
+      <div class="toolkit-group">
         <!--下拉列表-->
         <Button type="text" size="small" @click="setListValidatorVisible">
           <Tooltip content="下拉列表" :delay="tipsDelay">
@@ -269,22 +269,35 @@
           </DropdownMenu>
         </Dropdown>
 
+        <span class="toolkit-divider">
+          <i class="spreadfont spreadshuxian"></i>
+        </span>
       </div>
-      <span class="toolkit-divider">
-        <i class="spreadfont spreadshuxian"></i>
-      </span>
+
+      <div class="toolkit-group">
+        <!--解锁-->
+        <Button type="text" @click="lock(true)" size="small" v-show="!cellStyle.isLocked">
+          <Tooltip content="解锁" :delay="tipsDelay">
+            <i class="spreadfont spreadjiesuo"></i>
+          </Tooltip>
+        </Button>
+        <!-- or -->
+        <!--加锁-->
+        <Button type="text" @click="lock(false)" size="small" v-show="cellStyle.isLocked">
+          <Tooltip content="加锁" :delay="tipsDelay">
+            <i class="spreadfont spreadsuo"></i>
+          </Tooltip>
+        </Button>
+      </div>
 
       <!--更多菜单-->
-      <Poptip placement="bottom">
+      <Poptip class="toolkit-more_wrapper" placement="bottom">
         <Button size="small" type="text">
           <Tooltip content="更多菜单" :delay="tipsDelay">
             <Icon type="ios-more"/>
           </Tooltip>
         </Button>
         <div class="toolkit-more" slot="content">
-          <more-small v-show="viewport === 'small'"></more-small>
-          <more-middle v-show="viewport === 'middle'"></more-middle>
-          <more-large v-show="viewport === 'large'"></more-large>
         </div>
       </Poptip>
 
@@ -304,43 +317,16 @@
 </template>
 
 <script>
-  import moreSmall from './small'
-  import moreMiddle from './middle'
-  import moreLarge from './large'
   import mixin from './mixins'
 
   export default {
     name: 'Toolkit',
-    components: {
-      moreSmall,
-      moreMiddle,
-      moreLarge
-    },
     mixins: [mixin],
     provide: function () {
       return {
         ...this.$data,
-        lock: this.lock,
-        frozen: this.frozen,
-        listOptions: this.listOptions,
-        setListValidator: this.setListValidator,
-        setListValidatorVisible: this.setListValidatorVisible,
-        setWordWrap: this.setWordWrap,
-        mergeFunc: this.mergeFunc,
-        vAlignCell: this.vAlignCell,
-        hAlignCell: this.hAlignCell,
-      }
-    },
-    data() {
-      return {
-        moreSmall
       }
     }
-    // components: {
-    //   moreMiddle,
-    //   moreLarge
-    // },
-
   }
 </script>
 <style>
@@ -348,6 +334,11 @@
   /*@import "../style/iviewfont/ionicons.css";*/
 
   #ele-cloud-spreadjs-toolkit {
+    display: flex;
+    align-items: center;
+  }
+
+  .toolkit-group {
     display: flex;
     align-items: center;
   }
@@ -458,5 +449,9 @@
     vertical-align: middle;
     line-height: 1;
     color: #b8bbbd;
+  }
+
+  .toolkit-more {
+    display: flex;
   }
 </style>

@@ -935,34 +935,45 @@ export default {
       setListValidatorVisible() {
         this.listValidatorVisible = !this.listValidatorVisible;
       },
+
+      reflow() {
+        const root = document.getElementById('ele-cloud-spreadjs-toolkit');
+        const groupdoms = root.getElementsByClassName('toolkit-group');
+        const group1 = groupdoms[0];
+        const group2 = groupdoms[1];
+        const group3 = groupdoms[2];
+        const moreInner = document.getElementsByClassName('toolkit-more')[0];
+        const moreWrapper = document.getElementsByClassName('toolkit-more_wrapper')[0];
+        let bodyWidth = document.body.getBoundingClientRect().width;
+        if (bodyWidth <= 1260 && bodyWidth >= 1060) {
+          root.insertBefore(group1, moreWrapper);
+          moreInner.appendChild(group2);
+          moreInner.appendChild(group3);
+        } else if (bodyWidth > 1260) {
+          root.insertBefore(group2, moreWrapper);
+          root.insertBefore(group1, group2);
+          moreInner.appendChild(group3);
+        } else if (bodyWidth < 1060){
+          moreInner.appendChild(group1);
+          moreInner.appendChild(group2);
+          moreInner.appendChild(group3);
+        }
+      },
     },
     mounted() {
       this.syncSpread();
       this.bindEvent();
       Object.assign(this.cellStyle, this.getCellStyle());
 
-      let bodyWidth = document.body.getBoundingClientRect().width;
-      if (bodyWidth <= 1260 && bodyWidth >= 1060) {
-        this.viewport = 'middle';
-      } else if (bodyWidth > 1260) {
-        this.viewport = 'large';
-      } else if (bodyWidth < 1060){
-        this.viewport = 'small';
-      }
+      this.reflow();
+
       window.onresize = (() => {
         let canRun = true;
         return () => {
           if (!canRun) return;
           canRun = false;
           setTimeout(() => {
-            let bodyWidth = document.body.getBoundingClientRect().width;
-            if (bodyWidth <= 1260 && bodyWidth >= 1060) {
-              this.viewport = 'middle';
-            } else if (bodyWidth > 1260) {
-              this.viewport = 'large';
-            } else if (bodyWidth < 1060){
-              this.viewport = 'small';
-            }
+            this.reflow();
             canRun = true;
           }, 500);
         };
