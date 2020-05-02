@@ -5,8 +5,8 @@ export const formatterOptions = [
     value: 'normal',
   },
   {
-    label: '数字',
-    value: '#,##0',
+    label: '数值',
+    value: '0.00',
   },
   {
     label: '货币',
@@ -153,3 +153,105 @@ export const fontsizeOptions = [
     value: '30px',
   },
 ];
+export const numberFormats = [
+  '0',
+  '0;[Red]0',
+  '0_);(0)',
+  '0_);[Red](0)',
+  '#,##0',
+  '#,##0;[Red]#,##0',
+  '#,##0_);(#,##0)',
+  '#,##0_);[Red](#,##0)'
+];
+export const currencyFormats = [
+  "#,##0",
+  "#,##0;[Red]#,##0",
+  "#,##0;-#,##0",
+  "#,##0;[Red]-#,##0"
+];
+
+export const accountingFormats = [
+  "_(* #,##0_);_(* (#,##0);_(* \"-\"_);_(@_)",
+  '_(* #,##0.00_);_(* (#,##0.00);_(* "-"_);_(@_)',
+  ' $* #,##0.00 ; $* #,##0.00 ; $* "-" ; @ ',
+  '_-[$¥-804]* #,##0.00_-;-[$¥-804]* #,##0.00_-;_-[$¥-804]* "-"_-;_-@_-',
+  '_-[$¥-411]* #,##0.00_-;-[$¥-411]* #,##0.00_-;_-[$¥-411]* "-"_-;_-@_-',
+  '_-[$₩-412]* #,##0.00_-;-[$₩-412]* #,##0.00_-;_-[$₩-412]* "-"_-;_-@_-'
+];
+
+export const dateFormats = [
+  "m/d/yyyy",
+  "[$-409]dddd, mmmm dd, yyyy",
+  "m/d;@",
+  "m/d/yy;@",
+  "mm/dd/yy;@",
+  "[$-409]d-mmm;@",
+  "[$-409]d-mmm-yy;@",
+  "[$-409]dd-mmm-yy;@",
+  "[$-409]mmm-yy;@",
+  "[$-409]mmmm-yy;@",
+  "[$-409]mmmm d, yyyy;@",
+  "[$-409]m/d/yy h:mm AM/PM;@",
+  "m/d/yy h:mm;@",
+  "[$-409]mmmmm;@",
+  "[$-409]mmmmm-yy;@",
+  "m/d/yyyy;@",
+  "[$-409]d-mmm-yyyy;@",//
+  "yyyy-mm-dd;@",
+  '[DBNum1][$-804]yyyy"年"m"月"d"日";@',
+  '[DBNum1][$-804]yyyy"年"m"月";@',
+  '[DBNum1][$-804]m"月"d"日";@',
+  "[$-409]yyyy/m/d h:mm AM/PM;@",
+  'yyyy"年"m"月"d"日";@',
+  'yyyy"年"m"月";@',
+  'm"月"d"日";@',
+  "yyyy/m/d h:mm AM/PM;@",
+  "yyyy/m/d h:mm;@",
+  "[$-409]m",
+  "[$-409]m-d;@"
+];
+
+export const timeFormats = [
+  "[$-409]h:mm:ss AM/PM",
+  "h:mm;@",
+  "[$-409]h:mm AM/PM;@",
+  "h:mm:ss;@",
+  "[$-409]h:mm:ss AM/PM;@",
+  "mm:ss.0;@",
+  "[h]:mm:ss;@",
+  "[$-409]m/d/yy h:mm AM/PM;@",
+  "m/d/yy h:mm;@", //
+  'h"时"mm"分";@',
+  'h"时"mm"分"ss"秒";@',
+  '[$-804]AM/PM h"时"mm"分";;@',
+  '[$-804]AM/PM h"时"mm"分"ss"秒";@',
+  '[DBNum1][$-804]h"时"mm"分";@',
+  '[DBNum1][$-804]AM/PM h"时"mm"分";@'
+];
+
+export const percentageFormats = [
+  "0%"
+];
+
+export const fractionFormats = [
+  "# ?/?",
+  "# ??/??",
+  "# ???/???",
+  "# ?/2",
+  "# ?/4",
+  "# ?/8",
+  "# ??/16",
+  "# ?/10",
+  "# ??/100"
+];
+
+export const scientificFormats = [
+  "0E+00"
+];
+
+export const specialFormats = [
+  "000000",
+  "[DBNum1][$-804]General",
+  "[DBNum2][$-804]General"
+];
+

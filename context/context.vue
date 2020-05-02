@@ -59,20 +59,85 @@
         <div class="left-part">
           <div class="part-title">分类</div>
           <ul class="format-category-list focused">
-            <li v-for="item in formatterOptions"
-                :class="formatCellsValue === item.value && 'selected'"
-              @click="changeFormat(item.value)"
-            >{{item.label}}</li>
+            <li v-for="(item, index) in formatCellInfo.options"
+                :class="selectIndex === index && 'selected'"
+                @click="changeFormat(index)"
+            >{{item.label}}
+            </li>
           </ul>
         </div>
         <div class="right-part">
           <div class="format-example-part">
             <div class="part-title">示例</div>
-            <Input class="format-example-input" v-model="formatCellSample"  disabled></Input>
+            <Input class="format-example-input" v-model="formatCellInfo.sampleText" disabled></Input>
           </div>
           <div class="format-category-tip">
-            <normal v-show="formatCellsValue === 'normal'"></normal>
-            <number v-show="'#,##0'.includes(formatCellsValue)"></number>
+            <normal
+              v-show="selectIndex === 0"
+              :spread="spread"
+              :data.sync="formatCellInfo"
+              :currentIndex="selectIndex"
+            ></normal>
+            <number
+              v-show="selectIndex === 1"
+              :spread="spread"
+              :data.sync="formatCellInfo"
+              :currentIndex="selectIndex"
+            ></number>
+            <currency
+              v-show="selectIndex === 2"
+              :data.sync="formatCellInfo"
+              :currentIndex="selectIndex"
+              :spread="spread"
+            ></currency>
+            <accounting
+              v-show="selectIndex === 3"
+              :data.sync="formatCellInfo"
+              :currentIndex="selectIndex"
+              :spread="spread"
+            ></accounting>
+            <date
+              v-show="selectIndex === 4"
+              :data.sync="formatCellInfo"
+              :currentIndex="selectIndex"
+              :spread="spread"
+            ></date>
+            <times
+              v-show="selectIndex === 5"
+              :data.sync="formatCellInfo"
+              :currentIndex="selectIndex"
+              :spread="spread"
+            ></times>
+            <percentage
+              v-show="selectIndex === 6"
+              :data.sync="formatCellInfo"
+              :currentIndex="selectIndex"
+              :spread="spread"
+            ></percentage>
+            <fraction
+              v-show="selectIndex === 7"
+              :data.sync="formatCellInfo"
+              :currentIndex="selectIndex"
+              :spread="spread"
+            ></fraction>
+            <scientific
+              v-show="selectIndex === 8"
+              :data.sync="formatCellInfo"
+              :currentIndex="selectIndex"
+              :spread="spread"
+            ></scientific>
+            <texts
+              v-show="selectIndex === 9"
+              :data.sync="formatCellInfo"
+              :currentIndex="selectIndex"
+              :spread="spread"
+            ></texts>
+            <special
+              v-show="selectIndex === 10"
+              :data.sync="formatCellInfo"
+              :currentIndex="selectIndex"
+              :spread="spread"
+            ></special>
           </div>
         </div>
       </div>
@@ -84,10 +149,21 @@
 </template>
 
 <script>
-  import { formatterOptions } from '../src/options';
+  import {formatterOptions, numberFormats, currencyFormats} from '../src/options';
   import normal from './formatCells/normal';
   import number from './formatCells/number';
+  import currency from './formatCells/currency';
+  import accounting from './formatCells/accounting';
+  import date from './formatCells/date';
+  import times from './formatCells/time';
+  import percentage from './formatCells/percentage';
+  import fraction from './formatCells/fraction';
+  import scientific from './formatCells/scientific';
+  import texts from './formatCells/text';
+  import special from './formatCells/special';
   import GC from '@grapecity/spread-sheets';
+  import {whichFormatBelong} from '../src/utils';
+
   const menus = require('./menu.json');
 
   export default {
@@ -95,6 +171,15 @@
     components: {
       normal,
       number,
+      currency,
+      accounting,
+      date,
+      times,
+      percentage,
+      fraction,
+      scientific,
+      texts,
+      special,
     },
     props: {
       GC: Object,
@@ -115,18 +200,67 @@
 
         // 设置单元格格式
         formatCellsDialogVisible: false,
-        formatCellsValue: 'normal',
-        formatterOptions,
-        formatCellSample: '',
         formatCellInfo: {
+          options: [
+            {
+              label: '常规',
+              value: 'normal',
+            },
+            {
+              label: '数值',
+              value: '0.00',
+            },
+            {
+              label: '货币',
+              value: '$#,##0.00',
+            },
+            {
+              label: '会计专用',
+              value: '$ #,##0.00;$ (#,##0.00);$ "-"??;@',
+            },
+            {
+              label: '日期',
+              value: '[$]m/d/yyyy',
+            },
+            {
+              label: '时间',
+              value: 'h:mm:ss AM/PM',
+            },
+            {
+              label: '百分比',
+              value: '0.00%',
+            },
+            {
+              label: '分数',
+              value: '# ?/?',
+            },
+            {
+              label: '科学计数',
+              value: '0.00E+00',
+            },
+            {
+              label: '文本',
+              value: '@',
+            },
+            {
+              label: '特殊',
+              value: '000000',
+            },
+          ],
+          originText: '',
+          value: 'normal',
+          decimalPlace: 0,
+          useSeparator: false,
+          sampleText: ''
         },
+
+        selectIndex: -1,
 
         // 占位spread
         spread: null,
       }
     },
-    computed: {
-    },
+    computed: {},
     methods: {
       syncSpread() {
         this.worksheet = this.workbook.getActiveSheet();
@@ -321,16 +455,16 @@
         }
         this.deleteDialogVisible = false;
       },
-      changeFormat(value) {
-        this.formatCellsValue = value;
-        const res = this.formatCellsValue === 'normal' ? undefined : this.formatCellsValue;
-        this.spread.getActiveSheet().getCell(0, 0).formatter(res);
-        this.formatCellSample = this.spread.getActiveSheet().getText(0, 0);
+      changeFormat(index) {
+        this.selectIndex = index;
       },
       setFormat() {
-        const res = this.formatCellsValue === 'normal' ? undefined : this.formatCellsValue;
+        const res = this.formatCellInfo.value === 'normal' ? undefined : this.formatCellInfo.value;
         this.worksheet.getCell(this.clickCell.row, this.clickCell.col).formatter(res);
         this.formatCellsDialogVisible = false;
+      },
+      getSelectedIndex(format) {
+        this.selectIndex = whichFormatBelong(format);
       },
     },
     mounted() {
@@ -411,11 +545,11 @@
         canUndo: false,
         execute: function (context, options, isUndo) {
           self.syncSpread();
-          self.formatCellsValue = self.worksheet.getCell(self.clickCell.row, self.clickCell.col).formatter() || 'normal';
+          self.formatCellInfo.value = self.worksheet.getCell(self.clickCell.row, self.clickCell.col).formatter() || 'normal';
           const value = self.worksheet.getValue(self.clickCell.row, self.clickCell.col);
-          const text = self.worksheet.getText(self.clickCell.row, self.clickCell.col);
+          self.formatCellInfo.originText = self.worksheet.getText(self.clickCell.row, self.clickCell.col);
           self.spread.getActiveSheet().setValue(0, 0, value);
-          self.formatCellSample = text;
+          self.getSelectedIndex(self.formatCellInfo.value);
           self.formatCellsDialogVisible = true;
         }
       }
@@ -431,7 +565,13 @@
     beforeDestroy() {
 
     },
-    watch: {}
+    watch: {
+      formatCellsDialogVisible: function (newVal) {
+        if (!newVal) {
+          this.selectIndex = -1;
+        }
+      }
+    }
   }
 </script>
 <style>
