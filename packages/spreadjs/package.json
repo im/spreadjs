@@ -9,7 +9,9 @@
   "files": [
     "src",
     "legacy",
-    "style"
+    "style",
+    "context",
+    "toolkit"
   ],
   "publishConfig": {
     "access": "public"
