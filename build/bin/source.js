@@ -7,9 +7,11 @@ const packageFilePaths = [
   path.resolve(__dirname, '../../packages/spreadjs/legacy'),
   path.resolve(__dirname, '../../packages/spreadjs/src'),
   path.resolve(__dirname, '../../packages/spreadjs/style'),
+  path.resolve(__dirname, '../../packages/spreadjs/context'),
+  path.resolve(__dirname, '../../packages/spreadjs/toolkit'),
 ]
 
-const dirNames = ['legacy', 'src', 'style'];
+const dirNames = ['legacy', 'src', 'style', 'context', 'toolkit'];
 
 // clean
 sp('rm -rf ' + packageFilePaths.join(' ')).then(() => {
