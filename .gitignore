@@ -6,3 +6,5 @@ packages/spreadjs/lib
 packages/spreadjs/legacy
 packages/spreadjs/src
 packages/spreadjs/style
+packages/spreadjs/context
+packages/spreadjs/toolkit
